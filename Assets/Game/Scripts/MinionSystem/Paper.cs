@@ -4,8 +4,6 @@ using NaughtyAttributes;
 using UnityEngine;
 
 public class Paper : Minion {
-
-    [Button]
     public static Paper Create(Transform pfMinion,Vector3 spawnPosition) {
 
         //TODO: GetFromObjectPool
