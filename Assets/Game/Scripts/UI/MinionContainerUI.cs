@@ -8,13 +8,13 @@ using UnityEngine.EventSystems;
 
 public class MinionContainerUI : MonoBehaviour {
 
-    public event EventHandler<OnMinionSelectedEventArgs> OnMinionSelected;
-    public class OnMinionSelectedEventArgs : EventArgs {
-        public MinionTypeSO minionType;
-    }
+    //public event EventHandler<OnMinionSelectedEventArgs> OnMinionSelected;
+    //public class OnMinionSelectedEventArgs : EventArgs {
+    //    public MinionTypeSO minionType;
+    //}
 
 
-    [SerializeField] private MinionListSO MinionList;
+    [SerializeField] private MinionListSO minionList;
     [SerializeField] private Transform minionTemplate;
 
     private Dictionary<MinionTypeSO, Transform> minionTypeTransformDic;
@@ -49,7 +49,7 @@ public class MinionContainerUI : MonoBehaviour {
             PrototypePattern(); void PrototypePattern() {
                 minionTemplate.gameObject.SetActive(false);
 
-                foreach (var minionType in MinionList.list) {
+                foreach (var minionType in minionList.List) {
                     Transform minionTransform = Instantiate(minionTemplate, transform);
                     minionTransform.gameObject.SetActive(true);
 

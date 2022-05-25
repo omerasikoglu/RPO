@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
@@ -17,6 +15,7 @@ public class SpellTypeSO : ScriptableObject {
 
     [SerializeField] string SpellName; public string spellName => SpellName;
     [SerializeField] SpellTypeEnum spellType; public SpellTypeEnum SpellType => spellType;
+    [SerializeField] private Sprite sprite; public Sprite Sprite => sprite;
     [SerializeField] private bool isActive; public bool IsActive => isActive;
     [SerializeField] private int manaCost; public int ManaCost => manaCost;
 

@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "ScriptableObjects/SpellList")]
 public class SpellListSO : ScriptableObject {
 
-    public List<SpellTypeSO> spellList;
+    [SerializeField] private List<SpellTypeSO> list; public List<SpellTypeSO> List => list;
 
     private Dictionary<SpellTypeSO, bool> activeSpellsDic;
 
@@ -15,7 +15,7 @@ public class SpellListSO : ScriptableObject {
 
         SetDic(); void SetDic() {
 
-            foreach (var st in spellList) {
+            foreach (var st in list) {
 
                 activeSpellsDic[st] = st.IsActive;
             }

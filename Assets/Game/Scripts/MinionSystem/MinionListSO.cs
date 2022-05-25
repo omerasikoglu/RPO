@@ -5,5 +5,6 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "ScriptableObjects/MinionList")]
 public class MinionListSO : ScriptableObject {
 
-    public List<MinionTypeSO> list;
+    [SerializeField] private List<MinionTypeSO> list;
+    public List<MinionTypeSO> List => list;
 }
