@@ -10,7 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b14a218108c8525459a67e92034e99bd, type: 3}
-  m_Name: Runner
+  m_Name: Ghost
   m_EditorClassIdentifier: 
-  abilityName: Runner
-  minionAbility: 4
+  SpellName: Ghost
+  spellType: 5
+  isActive: 0
+  manaCost: 2

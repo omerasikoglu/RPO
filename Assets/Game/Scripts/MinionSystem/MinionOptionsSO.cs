@@ -1,10 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "ScriptableObjects/Minion")]
-public class MinionSO : ScriptableObject {
+[CreateAssetMenu(menuName = "ScriptableObjects/MinionOptions")]
+public class MinionOptionsSO : ScriptableObject {
     [SerializeField] private Transform minion; public Transform Minion => minion;
+    [SerializeField] private TeamEnum team; public TeamEnum Team => team;
 
     public float movementSpeed = 5f, scale = 1, damageAmount = 2f, maxHealth = 2, maxMana = 2f;
 

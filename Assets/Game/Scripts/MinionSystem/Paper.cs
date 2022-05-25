@@ -34,20 +34,20 @@ public class Paper : Minion {
 
         Rock rock = collision.GetComponent<Rock>();
         if (rock != null) {
-            CalculateCombat(rock, DamageType.critical, DamageType.poor);
+            CalculateCombat(rock, DamageTypeEnum.critical, DamageTypeEnum.poor);
         }
 
         Scissors scissors = collision.GetComponent<Scissors>();
         if (scissors != null) {
-            CalculateCombat(scissors, DamageType.poor, DamageType.critical);
+            CalculateCombat(scissors, DamageTypeEnum.poor, DamageTypeEnum.critical);
         }
 
         Paper paper = collision.GetComponent<Paper>();
         if (paper != null) {
-            CalculateCombat(paper, DamageType.normal, DamageType.normal);
+            CalculateCombat(paper, DamageTypeEnum.normal, DamageTypeEnum.normal);
         }
 
-        void CalculateCombat(Minion minion, DamageType youTakeDamage, DamageType enemyTakeDamage) {
+        void CalculateCombat(Minion minion, DamageTypeEnum youTakeDamage, DamageTypeEnum enemyTakeDamage) {
 
             minion.TakeDamage(GetDamage(enemyTakeDamage));
             GetDamage(youTakeDamage);

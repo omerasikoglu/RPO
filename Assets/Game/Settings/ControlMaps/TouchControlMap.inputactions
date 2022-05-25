@@ -2,16 +2,17 @@
     "name": "TouchControlMap",
     "maps": [
         {
-            "name": "Touch",
+            "name": "TouchActionMap",
             "id": "d1669231-1195-41d8-b874-207abe226d37",
             "actions": [
                 {
-                    "name": "TouchPos",
+                    "name": "Touch",
                     "type": "PassThrough",
                     "id": "09509a72-138b-4e20-ad94-91b7a9ab7545",
                     "expectedControlType": "Vector2",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Slide",
@@ -19,15 +20,17 @@
                     "id": "304b7929-9c60-4393-84a7-39a75e5c703a",
                     "expectedControlType": "Vector2",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": true
                 },
                 {
-                    "name": "IsTouching",
+                    "name": "TouchContact",
                     "type": "Button",
                     "id": "14cd3ef2-854d-4b66-a7a6-6334304088ac",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -38,7 +41,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "TouchPos",
+                    "action": "Touch",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -60,7 +63,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "IsTouching",
+                    "action": "TouchContact",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

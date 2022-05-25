@@ -9,8 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b14a218108c8525459a67e92034e99bd, type: 3}
-  m_Name: Jumper
+  m_Script: {fileID: 11500000, guid: 9637c098b4ff3b647b762d8c0b327d96, type: 3}
+  m_Name: Scissors
   m_EditorClassIdentifier: 
-  abilityName: Jumper
-  minionAbility: 2
+  minionName: Scissorrs
+  sprite: {fileID: 21300000, guid: e6e2bb7b3e10b00418d803b50e64d940, type: 3}
+  colorHex: 

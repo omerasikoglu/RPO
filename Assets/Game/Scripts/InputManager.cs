@@ -4,8 +4,9 @@ using UnityEngine.InputSystem;
 
 [DefaultExecutionOrder(-1)]
 public class InputManager : Singleton<InputManager> {
-    public event Action<Vector2> OnTouchPerformed, OnSlidePerformed;
-    public event Action OnTouchEnded;
+    public event Action<Vector2> OnCoordTouchPerformed, OnCoordTouchEnded; //return coord
+    public event Action<Vector2> OnSlidePerformed; //returns delta
+    public event Action OnTouchPerformed, OnTouchEnded;
 
     private TouchControlMap touchControlMap;
 
@@ -18,27 +19,31 @@ public class InputManager : Singleton<InputManager> {
         Observer();
 
         void Observer() {
-            touchControlMap.Touch.TouchPos.performed += PerformTouch;
-            touchControlMap.Touch.Slide.performed += PerformSlide;
-            touchControlMap.Touch.IsTouching.canceled += EndTouch;
+            touchControlMap.TouchActionMap.Touch.performed += PerformTouch;
+            touchControlMap.TouchActionMap.Slide.performed += PerformSlide;
+            touchControlMap.TouchActionMap.TouchContact.canceled += EndTouch;
+            touchControlMap.TouchActionMap.TouchContact.performed += PerformTouch;
         }
-    }
-    private void PerformSlide(InputAction.CallbackContext context) {
-        if (IsPointerOutsideTheBorder()) return;
-
-        OnSlidePerformed?.Invoke(touchControlMap.Touch.Slide.ReadValue<Vector2>());
     }
     private void PerformTouch(InputAction.CallbackContext context) {
         if (IsPointerOutsideTheBorder()) return;
 
-        OnTouchPerformed?.Invoke(touchControlMap.Touch.TouchPos.ReadValue<Vector2>());
+        OnTouchPerformed?.Invoke();
+        OnCoordTouchPerformed?.Invoke(touchControlMap.TouchActionMap.Touch.ReadValue<Vector2>());
     }
+    private void PerformSlide(InputAction.CallbackContext context) {
+        if (IsPointerOutsideTheBorder()) return;
+
+        OnSlidePerformed?.Invoke(touchControlMap.TouchActionMap.Slide.ReadValue<Vector2>());
+    }
+
     private void EndTouch(InputAction.CallbackContext context) {
         if (IsPointerOutsideTheBorder()) return;
 
         OnTouchEnded?.Invoke();
+        OnCoordTouchEnded?.Invoke(touchControlMap.TouchActionMap.Touch.ReadValue<Vector2>());
     }
     private bool IsPointerOutsideTheBorder() {
-        return float.IsInfinity(touchControlMap.Touch.TouchPos.ReadValue<Vector2>().x);
+        return float.IsInfinity(touchControlMap.TouchActionMap.Touch.ReadValue<Vector2>().x);
     }
 }

@@ -3,6 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public interface IAbility {
-    void GainAbilty(MinionAbilitySO minionAbility);
+    void GainAbilty(SpellTypeSO spellType);
 
 }

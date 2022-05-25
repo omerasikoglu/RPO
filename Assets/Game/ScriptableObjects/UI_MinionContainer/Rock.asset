@@ -9,8 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b14a218108c8525459a67e92034e99bd, type: 3}
-  m_Name: MoleWalker
+  m_Script: {fileID: 11500000, guid: 9637c098b4ff3b647b762d8c0b327d96, type: 3}
+  m_Name: Rock
   m_EditorClassIdentifier: 
-  abilityName: MoleWalker
-  minionAbility: 3
+  minionName: Rock
+  sprite: {fileID: 21300000, guid: a7e623d17228c384182a95a78252672f, type: 3}
+  colorHex: 

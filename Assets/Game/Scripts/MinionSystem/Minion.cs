@@ -1,48 +1,46 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Cinemachine.Utility;
 using DG.Tweening;
+using System;
+using Unity.VisualScripting;
 using UnityEngine;
+
+public enum TeamEnum { red, green, blue };
 
 public abstract class Minion : MonoBehaviour {
 
     public event Action OnDamageTaken, OnDead;
 
     #region Enums
-    public enum Team { red, green, blue };
-    protected enum Size { small = 1, normal = 2, big = 3 };
-    protected enum DamageType { poor = 1, normal = 2, critical = 3 }; 
-    protected enum MovementDirection { forward = 1, backward = 2 }; 
+
+    protected enum SizeEnum { small = 1, normal = 2, big = 3 };
+    protected enum DamageTypeEnum { poor = 1, normal = 2, critical = 3 };
+    protected enum MovementDirectionEnum { forward = 1, backward = 2 };
+
     #endregion
 
-    [SerializeField] protected Team team;
-    [SerializeField] protected MinionSO options;
+    [SerializeField] protected MinionOptionsSO options;
 
     private float currentHealth, currentMana;
 
 
-    
+    protected SizeEnum SetSize() {
 
-    protected Size SetSize() {
-
-        Size size = UnityEngine.Random.value switch
+        SizeEnum size = UnityEngine.Random.value switch
         {
-            < .01f => Size.small,
-            > .99f => Size.big,
-            _ => Size.normal
+            < .01f => SizeEnum.small,
+            > .99f => SizeEnum.big,
+            _ => SizeEnum.normal
         };
 
         SetStats(size);
 
         return size;
 
-        void SetStats(Size size) {
+        void SetStats(SizeEnum size) {
 
             switch (size) {
-                case Size.small: SetChangeAmounts(.5f, .5f, .75f); break;
-                case Size.normal: SetChangeAmounts(1f, 1f, 1f); break;
-                case Size.big: SetChangeAmounts(2f, 2f, 1.25f); break;
+                case SizeEnum.small: SetChangeAmounts(.5f, .5f, .75f); break;
+                case SizeEnum.normal: SetChangeAmounts(1f, 1f, 1f); break;
+                case SizeEnum.big: SetChangeAmounts(2f, 2f, 1.25f); break;
             }
 
             void SetChangeAmounts(float healthAmount, float manaAmount, float scaleAmount) {
@@ -51,23 +49,22 @@ public abstract class Minion : MonoBehaviour {
         }
     }
 
-    protected float GetDamage(DamageType damageType) {
+    protected float GetDamage(DamageTypeEnum damageType) {
         return damageType switch
         {
-            (DamageType)1 => options.damageAmount * .5f,
-            (DamageType)2 => options.damageAmount,
-            (DamageType)3 => options.damageAmount * 2,
+            (DamageTypeEnum)1 => options.damageAmount * .5f,
+            (DamageTypeEnum)2 => options.damageAmount,
+            (DamageTypeEnum)3 => options.damageAmount * 2,
             _ => options.damageAmount
         };
     }
 
-    private void SetMovementDirection(MovementDirection direction) {
-        switch (direction)
-        {
-            case MovementDirection.forward: break;
-            case MovementDirection.backward:
-                transform.DORotate(new Vector3(0f, 180f, 0f), 0f);
-                break;
+    private void SetMovementDirection(MovementDirectionEnum direction) {
+        switch (direction) {
+            case MovementDirectionEnum.forward: break;
+            case MovementDirectionEnum.backward:
+            transform.DORotate(new Vector3(0f, 180f, 0f), 0f);
+            break;
         }
     }
     public void TakeDamage(float damageAmount) {
@@ -84,32 +81,33 @@ public abstract class Minion : MonoBehaviour {
 
     }
 
-    public void GainAbilty(MinionAbility minionAbility) {
+    public void GainAbilty(SpellTypeEnum minionAbility) {
 
         switch (minionAbility) {
-            case MinionAbility.Disguise: break;
-            case MinionAbility.Jumper: break;
-            case MinionAbility.MoleWalker: break;
-            case MinionAbility.Runner:
-                options.movementSpeed += options.SpeedIncreaseAmount;
+            case SpellTypeEnum.Disguise: break;
+            case SpellTypeEnum.Jumper: break;
+            case SpellTypeEnum.MoleWalker: break;
+            case SpellTypeEnum.Runner:
+            options.movementSpeed += options.SpeedIncreaseAmount;
             break;
         }
     }
 
-    public Team GetTeam() {
-        return team;
+    public TeamEnum GetTeam() {
+        return options.Team;
     }
+
 
     protected virtual void OnTriggerEnter(Collider collision) {
 
         //Check is teammate
         Minion minion = collision.GetComponent<Minion>();
-        if (minion != null && team == minion.GetTeam()) return;
+        if (minion != null && GetTeam() == minion.GetTeam()) return;
 
         Octopus octopus = collision.GetComponent<Octopus>();
         if (octopus != null) {
-            octopus.TakeDamage(GetDamage(DamageType.poor));
-            GetDamage(DamageType.critical);
+            octopus.TakeDamage(GetDamage(DamageTypeEnum.poor));
+            GetDamage(DamageTypeEnum.critical);
         }
 
     }
