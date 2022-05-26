@@ -32,7 +32,7 @@ public class MinionContainerUI : MonoBehaviour {
     private void InputManagerOnCoordTouchPerformed(Vector2 coord)
     {
         if (EventSystem.current.IsPointerOverGameObject()) return;
-        if (!ManaManager.Instance.HaveEnoughMana()) return;
+        //if (!ManaManager.Instance.HaveEnoughMana()) return;
         
         //TODO: Not enough mana tooltipUI
     }

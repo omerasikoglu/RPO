@@ -1,5 +1,5 @@
-public struct StringData
-{
+public struct StringData {
+
     //PlayerPrefs
     public const string PREF_MONEY = "money";
     public const string PREF_LEVEL = "level";
@@ -21,7 +21,7 @@ public struct StringData
     public const string OBSTACLE = "Obstacle";
 
     //Hierarchy
-    public const string LEFT_GATE = "leftGate";
+    public const string BAR = "bar";
 
 
 }

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-    
+
 public abstract class Minion : MonoBehaviour {
 
     public event Action OnDamageTaken, OnDead;
@@ -11,7 +11,7 @@ public abstract class Minion : MonoBehaviour {
     #region Enums
     protected enum SizeEnum { small = 1, normal = 2, big = 3 };
     private SizeEnum minionSize;
-    protected enum DamageTypeEnum { poor = 1, normal = 2, critical = 3 };
+    protected enum DamageTypeEnum { poor = 1, normal = 2, critical = 3, instaDeath = 4 };
     protected enum MovementDirectionEnum { forward = 1, backward = 2 };
     #endregion
 
@@ -56,7 +56,7 @@ public abstract class Minion : MonoBehaviour {
     }
     public TeamEnum GetTeam() {
         return options.Team;
-    } 
+    }
     #endregion
 
 
@@ -90,6 +90,7 @@ public abstract class Minion : MonoBehaviour {
             (DamageTypeEnum)1 => options.damageAmount * .5f,
             (DamageTypeEnum)2 => options.damageAmount,
             (DamageTypeEnum)3 => options.damageAmount * 2,
+            (DamageTypeEnum)4 => options.damageAmount * 10,
             _ => options.damageAmount
         };
     }
@@ -111,6 +112,12 @@ public abstract class Minion : MonoBehaviour {
         if (octopus != null) {
             octopus.TakeDamage(GetDamage(DamageTypeEnum.poor));
             GetDamage(DamageTypeEnum.critical);
+        }
+
+        HealthManager player = collision.GetComponent<HealthManager>();
+        if (player != null) {
+            player.GetDamage();
+            GetDamage(DamageTypeEnum.instaDeath);
         }
 
     }

@@ -13,9 +13,14 @@ public class GameManager : Singleton<GameManager> {
     private GameState activeState;
 
     private void Awake() {
-       
-        InitPlayerPrefs();
+        
+        SetFPS();
+        void SetFPS() {
+            QualitySettings.vSyncCount = 0;
+            Application.targetFrameRate = 30;
+        }
 
+        InitPlayerPrefs();
         void InitPlayerPrefs() {
             PlayerPrefs.SetInt(StringData.PREF_MONEY, 0);
             PlayerPrefs.SetInt(StringData.PREF_LEVEL, 1);
