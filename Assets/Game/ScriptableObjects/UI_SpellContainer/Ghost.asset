@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SpellName: Ghost
   spellType: 5
+  sprite: {fileID: 21300000, guid: 44d9134a20b580740a6342abd2549faa, type: 3}
   isActive: 0
   manaCost: 2

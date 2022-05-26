@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SpellName: Disguise
   spellType: 1
+  sprite: {fileID: 21300000, guid: 30a70ddbde976a44eb6aa6722e72cb74, type: 3}
   isActive: 0
   manaCost: 2

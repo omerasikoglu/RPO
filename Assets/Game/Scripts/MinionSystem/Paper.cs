@@ -4,14 +4,14 @@ using NaughtyAttributes;
 using UnityEngine;
 
 public class Paper : Minion {
-    public static Paper Create(Transform pfMinion,Vector3 spawnPosition) {
+    public static Paper Create(Transform pfMinion, SpawnPointEnum spawnPoint) {
 
         //TODO: GetFromObjectPool
-
-        Transform minionTransform = Instantiate(pfMinion, spawnPosition, Quaternion.identity);
+        
+        Transform minionTransform = Instantiate(pfMinion, GetSpawnPosition(spawnPoint), Quaternion.identity);
 
         Paper paper = minionTransform.GetComponent<Paper>();
-        paper.SetSize();
+        paper.Setup();
 
 
         return paper;
@@ -19,6 +19,9 @@ public class Paper : Minion {
 
     private void Setup()
     {
+
+        SetMinionSize();
+        
 
     }
 

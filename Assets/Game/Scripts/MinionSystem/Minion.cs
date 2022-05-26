@@ -1,39 +1,75 @@
 using DG.Tweening;
 using System;
-using Unity.VisualScripting;
+using System.Collections.Generic;
 using UnityEngine;
 
-public enum TeamEnum { red, green, blue };
-
+    
 public abstract class Minion : MonoBehaviour {
 
     public event Action OnDamageTaken, OnDead;
 
     #region Enums
-
     protected enum SizeEnum { small = 1, normal = 2, big = 3 };
+    private SizeEnum minionSize;
     protected enum DamageTypeEnum { poor = 1, normal = 2, critical = 3 };
     protected enum MovementDirectionEnum { forward = 1, backward = 2 };
-
     #endregion
 
     [SerializeField] protected MinionOptionsSO options;
 
     private float currentHealth, currentMana;
 
+    #region Static
+    [SerializeField] private static List<Transform> spawnPositionList;
+    protected static Vector3 GetSpawnPosition(SpawnPointEnum spawnPoint) {
+        return spawnPoint switch
+        {
+            (SpawnPointEnum)1 => spawnPositionList[0].position != null ? spawnPositionList[0].position : new Vector3(-2f, 0f, 2f),
+            (SpawnPointEnum)2 => spawnPositionList[1].position != null ? spawnPositionList[1].position : new Vector3(-2f, 0f, 2f),
+        };
+    }
+    #endregion
 
-    protected SizeEnum SetSize() {
+    #region Public
+    public void TakeDamage(float damageAmount) {
 
-        SizeEnum size = UnityEngine.Random.value switch
+        currentHealth -= damageAmount;
+        currentHealth = Mathf.Clamp(currentHealth, 0, options.maxHealth);
+        OnDamageTaken?.Invoke();
+
+        if (currentHealth <= 0f) Dead(); void Dead() {
+
+            OnDead?.Invoke();
+
+        }
+
+    }
+    public void GainAbilty(SpellTypeEnum minionAbility) {
+
+        switch (minionAbility) {
+            case SpellTypeEnum.Disguise: break;
+            case SpellTypeEnum.Jumper: break;
+            case SpellTypeEnum.MoleWalker: break;
+            case SpellTypeEnum.Runner: options.movementSpeed += options.SpeedIncreaseAmount; break;
+            case SpellTypeEnum.Ghost: break;
+        }
+    }
+    public TeamEnum GetTeam() {
+        return options.Team;
+    } 
+    #endregion
+
+
+    protected void SetMinionSize() {
+
+        minionSize = UnityEngine.Random.value switch
         {
             < .01f => SizeEnum.small,
             > .99f => SizeEnum.big,
             _ => SizeEnum.normal
         };
 
-        SetStats(size);
-
-        return size;
+        SetStats(minionSize);
 
         void SetStats(SizeEnum size) {
 
@@ -48,7 +84,6 @@ public abstract class Minion : MonoBehaviour {
             }
         }
     }
-
     protected float GetDamage(DamageTypeEnum damageType) {
         return damageType switch
         {
@@ -58,7 +93,6 @@ public abstract class Minion : MonoBehaviour {
             _ => options.damageAmount
         };
     }
-
     private void SetMovementDirection(MovementDirectionEnum direction) {
         switch (direction) {
             case MovementDirectionEnum.forward: break;
@@ -67,37 +101,6 @@ public abstract class Minion : MonoBehaviour {
             break;
         }
     }
-    public void TakeDamage(float damageAmount) {
-
-        currentHealth -= damageAmount;
-        currentHealth = Mathf.Clamp(currentHealth, 0, options.maxHealth);
-        OnDamageTaken?.Invoke();
-
-        if (currentHealth <= 0f) Dead(); void Dead() {
-
-            OnDead?.Invoke();
-
-        }
-
-    }
-
-    public void GainAbilty(SpellTypeEnum minionAbility) {
-
-        switch (minionAbility) {
-            case SpellTypeEnum.Disguise: break;
-            case SpellTypeEnum.Jumper: break;
-            case SpellTypeEnum.MoleWalker: break;
-            case SpellTypeEnum.Runner:
-            options.movementSpeed += options.SpeedIncreaseAmount;
-            break;
-        }
-    }
-
-    public TeamEnum GetTeam() {
-        return options.Team;
-    }
-
-
     protected virtual void OnTriggerEnter(Collider collision) {
 
         //Check is teammate

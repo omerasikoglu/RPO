@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SpellName: Runner
   spellType: 4
+  sprite: {fileID: 21300000, guid: f78457594ff17b4479ad8dce78f80df2, type: 3}
   isActive: 0
   manaCost: 1

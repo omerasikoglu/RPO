@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d47da0434a899ae4a91216aab2911ead, type: 3}
   m_Name: PaperOptions
   m_EditorClassIdentifier: 
-  minion: {fileID: 0}
+  minion: {fileID: 3393257390216520332, guid: 66b7373f5adebb242a3e5020a260320d, type: 3}
+  team: 0
   movementSpeed: 5
   scale: 1
   damageAmount: 2
