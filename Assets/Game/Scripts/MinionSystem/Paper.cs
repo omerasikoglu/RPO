@@ -4,56 +4,42 @@ using NaughtyAttributes;
 using UnityEngine;
 
 public class Paper : Minion {
-    public static Paper Create(Transform pfMinion, SpawnPointEnum spawnPoint) {
+    //public static Paper Create() {
 
-        //TODO: GetFromObjectPool
-        
-        Transform minionTransform = Instantiate(pfMinion, GetSpawnPosition(spawnPoint), Quaternion.identity);
+    //    //TODO: GetFromObjectPool
 
-        Paper paper = minionTransform.GetComponent<Paper>();
-        paper.Setup();
+    //    Transform minionTransform = Instantiate(pfMinion, GetSpawnPos(spawnPoint), Quaternion.identity);
 
-
-        return paper;
-    }
-
-    private void Setup()
-    {
-
-        SetMinionSize();
-        
-
-    }
+    //    Paper paper = minionTransform.GetComponent<Paper>();
+    //    paper.Setup();
 
 
-
-
-
-
+    //    return paper;
+    //}
 
 
     protected override void OnTriggerEnter(Collider collision) {
         base.OnTriggerEnter(collision);
 
-        Rock rock = collision.GetComponent<Rock>();
+        Rock rock = collision.attachedRigidbody.GetComponent<Rock>();
         if (rock != null) {
-            CalculateCombat(rock, DamageTypeEnum.critical, DamageTypeEnum.poor);
+            CalculateCombat(rock, DamageQualityEnum.poor, DamageQualityEnum.critical);
         }
 
-        Scissors scissors = collision.GetComponent<Scissors>();
+        Scissors scissors = collision.attachedRigidbody.GetComponent<Scissors>();
         if (scissors != null) {
-            CalculateCombat(scissors, DamageTypeEnum.poor, DamageTypeEnum.critical);
+            CalculateCombat(scissors, DamageQualityEnum.critical, DamageQualityEnum.poor);
         }
 
-        Paper paper = collision.GetComponent<Paper>();
+        Paper paper = collision.attachedRigidbody.GetComponent<Paper>();
         if (paper != null) {
-            CalculateCombat(paper, DamageTypeEnum.normal, DamageTypeEnum.normal);
+            CalculateCombat(paper, DamageQualityEnum.normal, DamageQualityEnum.normal);
         }
 
-        void CalculateCombat(Minion minion, DamageTypeEnum youTakeDamage, DamageTypeEnum enemyTakeDamage) {
+        void CalculateCombat(Minion enemyMinion, DamageQualityEnum youTakeDamage, DamageQualityEnum damageQuality) {
 
-            minion.TakeDamage(GetDamage(enemyTakeDamage));
-            GetDamage(youTakeDamage);
+            enemyMinion.TakeDamage(GetDamage(damageQuality));
+            TakeDamage(GetDamage(youTakeDamage));
         }
     }
 }

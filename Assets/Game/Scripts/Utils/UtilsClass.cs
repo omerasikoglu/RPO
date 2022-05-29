@@ -131,6 +131,10 @@ public static class UtilsClass {
         yield return new WaitForSeconds(secs);
         action();
     }
+    public static IEnumerator WaitForFixedUpdate(Action action) {
+        yield return new WaitForFixedUpdate();
+        action();
+    }
 
     public static void PlayFX(List<ParticleSystem> particleList, ParticleSystem particle, int isOldEmitPending = 0) {
 

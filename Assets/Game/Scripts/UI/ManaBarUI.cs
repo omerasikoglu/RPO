@@ -5,6 +5,7 @@ using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.UI;
 
+//TODO: Convert this to ManaGenerator
 public class ManaBarUI : BarUI {
 
     private float manaRegenTimer = .5f;

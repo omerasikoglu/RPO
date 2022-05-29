@@ -10,12 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d47da0434a899ae4a91216aab2911ead, type: 3}
-  m_Name: PaperOptions
+  m_Name: RockOptionsStopping
   m_EditorClassIdentifier: 
-  minion: {fileID: 3393257390216520332, guid: 66b7373f5adebb242a3e5020a260320d, type: 3}
-  team: 0
-  movementSpeed: 5
-  scale: 1
+  pfMinion: {fileID: 6245401294473341198, guid: a65bb75c8c809cd4683ccbd00ed7c7d5, type: 3}
+  team: 1
+  spawnPoint: 2
+  movementSpeed: 0
+  scale: 1.5625
   damageAmount: 2
   maxHealth: 2
   maxMana: 2

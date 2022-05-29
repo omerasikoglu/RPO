@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using NaughtyAttributes;
 using UnityEngine;
 
-public class ManaManager : Singleton<ManaManager> {
+//TODO: Split ManaManager and ManaGenerator
+public class ManaManager : MonoBehaviour {
 
     //[SerializeField] private int maxMana = 5;
 

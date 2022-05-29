@@ -2,124 +2,165 @@ using DG.Tweening;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using NaughtyAttributes;
 
-
+public enum SizeEnum { small = 1, normal = 2, big = 3 };
+public enum DamageQualityEnum { poor = 1, normal = 2, critical = 3, instaDeath = 4 };
 public abstract class Minion : MonoBehaviour {
+
+    public static Minion Create(Transform pfTransform, Vector3 pos) {
+
+        Transform minionTransform = Instantiate(pfTransform, pos, Quaternion.identity);
+
+        Minion minion = minionTransform.GetComponent<Minion>();
+        minion.Setup();
+
+        return minion;
+    }
 
     public event Action OnDamageTaken, OnDead;
 
-    #region Enums
-    protected enum SizeEnum { small = 1, normal = 2, big = 3 };
-    private SizeEnum minionSize;
-    protected enum DamageTypeEnum { poor = 1, normal = 2, critical = 3, instaDeath = 4 };
-    protected enum MovementDirectionEnum { forward = 1, backward = 2 };
-    #endregion
-
     [SerializeField] protected MinionOptionsSO options;
 
-    private float currentHealth, currentMana;
+    private SizeEnum minionScale;
 
-    #region Static
-    [SerializeField] private static List<Transform> spawnPositionList;
-    protected static Vector3 GetSpawnPosition(SpawnPointEnum spawnPoint) {
-        return spawnPoint switch
-        {
-            (SpawnPointEnum)1 => spawnPositionList[0].position != null ? spawnPositionList[0].position : new Vector3(-2f, 0f, 2f),
-            (SpawnPointEnum)2 => spawnPositionList[1].position != null ? spawnPositionList[1].position : new Vector3(-2f, 0f, 2f),
-        };
+    [ShowNonSerializedField] private float currentHealth, currentMana, currentScale, currentMovementSpeed;
+    [ShowNonSerializedField] private bool isImmune = false;
+
+    public Transform GetPrefab() => options.PfMinion;
+
+    public void Awake() {
+        Setup();
     }
-    #endregion
-
-    #region Public
-    public void TakeDamage(float damageAmount) {
-
-        currentHealth -= damageAmount;
-        currentHealth = Mathf.Clamp(currentHealth, 0, options.maxHealth);
-        OnDamageTaken?.Invoke();
-
-        if (currentHealth <= 0f) Dead(); void Dead() {
-
-            OnDead?.Invoke();
-
-        }
-
+    public void Update() {
+        transform.Translate(currentMovementSpeed * GetDirection() * Time.deltaTime);
     }
-    public void GainAbilty(SpellTypeEnum minionAbility) {
+    #region First Create
+    protected void Setup() {
 
-        switch (minionAbility) {
-            case SpellTypeEnum.Disguise: break;
-            case SpellTypeEnum.Jumper: break;
-            case SpellTypeEnum.MoleWalker: break;
-            case SpellTypeEnum.Runner: options.movementSpeed += options.SpeedIncreaseAmount; break;
-            case SpellTypeEnum.Ghost: break;
-        }
+        GetDirection();
+        SetHealth(options.DefaultHealth);
+        SetMana(options.DefaultMana);
+        SetMovementSpeed(options.DefaultMovementSpeed);
+        SetScale();
     }
-    public TeamEnum GetTeam() {
-        return options.Team;
-    }
-    #endregion
 
 
-    protected void SetMinionSize() {
+    protected void SetScale() {
 
-        minionSize = UnityEngine.Random.value switch
+        minionScale = UnityEngine.Random.value switch
         {
             < .01f => SizeEnum.small,
             > .99f => SizeEnum.big,
             _ => SizeEnum.normal
         };
 
-        SetStats(minionSize);
+        SetStats(minionScale);
 
-        void SetStats(SizeEnum size) {
+        void SetStats(SizeEnum scale) {
 
-            switch (size) {
+            switch (scale) {
                 case SizeEnum.small: SetChangeAmounts(.5f, .5f, .75f); break;
                 case SizeEnum.normal: SetChangeAmounts(1f, 1f, 1f); break;
                 case SizeEnum.big: SetChangeAmounts(2f, 2f, 1.25f); break;
+                default: SetChangeAmounts(1f, 1f, 1f); break;
             }
 
             void SetChangeAmounts(float healthAmount, float manaAmount, float scaleAmount) {
-                options.maxHealth *= healthAmount; options.maxMana *= manaAmount; options.scale *= scaleAmount;
+                currentHealth *= healthAmount; currentMana *= manaAmount; currentScale *= scaleAmount;
             }
         }
     }
-    protected float GetDamage(DamageTypeEnum damageType) {
-        return damageType switch
-        {
-            (DamageTypeEnum)1 => options.damageAmount * .5f,
-            (DamageTypeEnum)2 => options.damageAmount,
-            (DamageTypeEnum)3 => options.damageAmount * 2,
-            (DamageTypeEnum)4 => options.damageAmount * 10,
-            _ => options.damageAmount
-        };
+    public Vector3 GetDirection() {
+
+        return Vector3.forward;
     }
-    private void SetMovementDirection(MovementDirectionEnum direction) {
-        switch (direction) {
-            case MovementDirectionEnum.forward: break;
-            case MovementDirectionEnum.backward:
-            transform.DORotate(new Vector3(0f, 180f, 0f), 0f);
-            break;
+    public void SetMovementSpeed(float speed) {
+        currentMovementSpeed = speed;
+    }
+    public void SetMana(float mana) {
+        currentMana = mana;
+    }
+    public void SetHealth(float health) {
+        currentHealth = health;
+    }
+    public void GainAbilty(SpellTypeEnum minionAbility) {
+        switch (minionAbility) {
+            case SpellTypeEnum.Disguise: break;
+            case SpellTypeEnum.Jumper: break;
+            case SpellTypeEnum.MoleWalker: break;
+            case SpellTypeEnum.Runner: currentMovementSpeed += options.SpeedIncreaseAmount; break;
+            case SpellTypeEnum.Ghost: break;
         }
+    }
+
+    #endregion
+
+    #region Collision
+    public void TakeDamage(float damageAmount) {
+
+        if (isImmune) return;
+
+        SetImmunity(true);
+
+        currentHealth -= damageAmount;
+        currentHealth = Mathf.Clamp(currentHealth, 0, options.DefaultMana);
+        OnDamageTaken?.Invoke();
+
+        if (currentHealth <= 0f) Dead(); void Dead() {
+
+            OnDead?.Invoke();
+            Destroy(gameObject);
+
+        }
+
+        StartCoroutine(UtilsClass.WaitForFixedUpdate(() => { SetImmunity(false); }));
+
+    }
+    public TeamEnum GetTeam() {
+        return options.team;
+    }
+
+    protected float GetDamage(DamageQualityEnum damageQuality) {
+        return damageQuality switch
+        {
+            (DamageQualityEnum)1 => options.DefaultDamage * .5f,
+            (DamageQualityEnum)2 => options.DefaultDamage,
+            (DamageQualityEnum)3 => options.DefaultDamage * 2,
+            (DamageQualityEnum)4 => options.DefaultDamage * 10,
+            _ => options.DefaultDamage
+        };
     }
     protected virtual void OnTriggerEnter(Collider collision) {
 
         //Check is teammate
-        Minion minion = collision.GetComponent<Minion>();
+        Minion minion = collision.attachedRigidbody.GetComponent<Minion>();
         if (minion != null && GetTeam() == minion.GetTeam()) return;
 
-        Octopus octopus = collision.GetComponent<Octopus>();
+        Octopus octopus = collision.attachedRigidbody.GetComponent<Octopus>();
         if (octopus != null) {
-            octopus.TakeDamage(GetDamage(DamageTypeEnum.poor));
-            GetDamage(DamageTypeEnum.critical);
+            octopus.TakeDamage(GetDamage(DamageQualityEnum.poor));
+            GetDamage(DamageQualityEnum.critical);
         }
 
-        HealthManager player = collision.GetComponent<HealthManager>();
+        HealthManager player = collision.attachedRigidbody.GetComponent<HealthManager>();
         if (player != null) {
             player.GetDamage();
-            GetDamage(DamageTypeEnum.instaDeath);
+            GetDamage(DamageQualityEnum.instaDeath);
         }
 
+    }
+
+
+    #endregion
+
+    public void SetImmunity(bool isImmune) {
+        this.isImmune = isImmune;
+    }
+
+    [Button]
+    void ggg() {
+        TakeDamage(GetDamage(DamageQualityEnum.poor));
     }
 
 }
