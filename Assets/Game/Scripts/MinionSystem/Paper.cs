@@ -19,6 +19,13 @@ public class Paper : Minion {
     private void OnTriggerEnter(Collider collision) {
 
         #region base // BUG: cant colliding when inherit from base class
+
+        HealthManager general = collision.attachedRigidbody.GetComponent<HealthManager>(); //general health
+        if (general != null) {
+            general.TakeDamage();
+            TakeDamage(GetDamage(DamageQuality.instaDeath));
+        }
+
         Minion minion = collision.attachedRigidbody.GetComponent<Minion>();
         if (minion == null) return;
         if (GetTeam().Equals(minion.GetTeam())) return;
@@ -28,11 +35,6 @@ public class Paper : Minion {
             CalculateCombat(octopus, DamageQuality.critical, DamageQuality.poor);
         }
 
-        HealthManager general = collision.attachedRigidbody.GetComponent<HealthManager>(); //mainTower health
-        if (general != null) {
-            general.TakeDamage();
-            TakeDamage(GetDamage(DamageQuality.instaDeath));
-        }
         #endregion
 
         Rock rock = collision.attachedRigidbody.GetComponent<Rock>();
