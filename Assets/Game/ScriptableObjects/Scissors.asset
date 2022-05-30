@@ -14,4 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minionName: Scissorrs
   sprite: {fileID: 21300000, guid: e6e2bb7b3e10b00418d803b50e64d940, type: 3}
+  manaCost: 0
   colorHex: 
+  minionPrefab: {fileID: 4049285202448734536, guid: 23f682b04ceaae648b40e2690a4e3088, type: 3}

@@ -4,8 +4,36 @@ using UnityEngine;
 
 public class Rock : Minion {
 
-    protected override void OnTriggerEnter(Collider collision) {
-        base.OnTriggerEnter(collision);
+    public static Rock Create(Vector3 spawnPos) {
+
+        Transform rockPrefab = Resources.Load<MinionTypeListSO>(typeof(MinionTypeListSO).Name).GetRock;
+        Transform minionTransform = Instantiate(rockPrefab, spawnPos, Quaternion.identity);
+
+        Rock rock = minionTransform.GetComponent<Rock>();
+        rock.Setup();
+
+        return rock;
+    }
+
+    
+    private void OnTriggerEnter(Collider collision) {
+
+        #region base // BUG: cant colliding when inherit from base class
+        Minion minion = collision.attachedRigidbody.GetComponent<Minion>();
+        if (minion == null) return;
+        if (GetTeam().Equals(minion.GetTeam())) return;
+
+        Octopus octopus = collision.attachedRigidbody.GetComponent<Octopus>();
+        if (octopus != null) {
+            CalculateCombat(octopus, DamageQuality.critical, DamageQuality.poor);
+        }
+
+        HealthManager general = collision.attachedRigidbody.GetComponent<HealthManager>(); //mainTower health
+        if (general != null) {
+            general.TakeDamage();
+            TakeDamage(GetDamage(DamageQuality.instaDeath));
+        }
+        #endregion
 
         Rock rock = collision.attachedRigidbody.GetComponent<Rock>();
         if (rock != null) {

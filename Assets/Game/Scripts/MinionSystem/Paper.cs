@@ -4,22 +4,36 @@ using NaughtyAttributes;
 using UnityEngine;
 
 public class Paper : Minion {
-    //public static Paper Create() {
+    public static Paper Create(Vector3 spawnPos) {
 
-    //    //TODO: GetFromObjectPool
+        Transform paperPrefab = Resources.Load<MinionTypeListSO>(typeof(MinionTypeListSO).Name).GetPaper;
+        Transform minionTransform = Instantiate(paperPrefab, spawnPos, Quaternion.identity);
 
-    //    Transform minionTransform = Instantiate(pfMinion, GetSpawnPos(spawnPoint), Quaternion.identity);
+        Paper paper = minionTransform.GetComponent<Paper>();
+        paper.Setup();
 
-    //    Paper paper = minionTransform.GetComponent<Paper>();
-    //    paper.Setup();
-
-
-    //    return paper;
-    //}
+        return paper;
+    }
 
 
-    protected override void OnTriggerEnter(Collider collision) {
-        base.OnTriggerEnter(collision);
+    private void OnTriggerEnter(Collider collision) {
+
+        #region base // BUG: cant colliding when inherit from base class
+        Minion minion = collision.attachedRigidbody.GetComponent<Minion>();
+        if (minion == null) return;
+        if (GetTeam().Equals(minion.GetTeam())) return;
+
+        Octopus octopus = collision.attachedRigidbody.GetComponent<Octopus>();
+        if (octopus != null) {
+            CalculateCombat(octopus, DamageQuality.critical, DamageQuality.poor);
+        }
+
+        HealthManager general = collision.attachedRigidbody.GetComponent<HealthManager>(); //mainTower health
+        if (general != null) {
+            general.TakeDamage();
+            TakeDamage(GetDamage(DamageQuality.instaDeath));
+        }
+        #endregion
 
         Rock rock = collision.attachedRigidbody.GetComponent<Rock>();
         if (rock != null) {

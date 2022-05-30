@@ -14,7 +14,7 @@ public class MinionContainerUI : MonoBehaviour {
     //}
 
 
-    [SerializeField] private MinionListSO minionList;
+    [SerializeField] private MinionTypeListSO minionTypeList;
     [SerializeField] private Transform minionTemplate;
 
     private Dictionary<MinionTypeSO, Transform> minionTypeTransformDic;
@@ -49,7 +49,7 @@ public class MinionContainerUI : MonoBehaviour {
             PrototypePattern(); void PrototypePattern() {
                 minionTemplate.gameObject.SetActive(false);
 
-                foreach (var minionType in minionList.List) {
+                foreach (var minionType in minionTypeList.List) {
                     Transform minionTransform = Instantiate(minionTemplate, transform);
                     minionTransform.gameObject.SetActive(true);
 

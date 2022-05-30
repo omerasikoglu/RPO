@@ -8,15 +8,15 @@ public enum Size { small = 1, normal = 2, big = 3 };
 public enum DamageQuality { poor = 1, normal = 2, critical = 3, instaDeath = 4 };
 public abstract class Minion : MonoBehaviour {
 
-    public static Minion Create(Transform pfTransform, Vector3 pos) {
+    //public static Minion Create(Transform pfTransform, Vector3 pos) {
 
-        Transform minionTransform = Instantiate(pfTransform, pos, Quaternion.identity);
+    //    Transform minionTransform = Instantiate(pfTransform, pos, Quaternion.identity);
 
-        Minion minion = minionTransform.GetComponent<Minion>();
-        minion.Setup();
+    //    Minion minion = minionTransform.GetComponent<Minion>();
+    //    minion.Setup();
 
-        return minion;
-    }
+    //    return minion;
+    //}
 
     public event Action OnDamageTaken, OnDead;
 
@@ -26,8 +26,6 @@ public abstract class Minion : MonoBehaviour {
 
     [ShowNonSerializedField] private float currentHealth, currentMana, currentScale, currentMovementSpeed;
     [ShowNonSerializedField] private bool isImmune = false;
-
-    public Transform GetPrefab() => options.PfMinion;
 
     public void Awake() {
         Setup();
@@ -131,36 +129,10 @@ public abstract class Minion : MonoBehaviour {
             _ => options.DefaultDamage
         };
     }
-    protected virtual void OnTriggerEnter(Collider collision) {
-
-        //Check is teammate
-        Minion minion = collision.attachedRigidbody.GetComponent<Minion>();
-        if (minion != null && GetTeam() == minion.GetTeam()) return;
-
-        Octopus octopus = collision.attachedRigidbody.GetComponent<Octopus>();
-        if (octopus != null) {
-            octopus.TakeDamage(GetDamage(DamageQuality.poor));
-            GetDamage(DamageQuality.critical);
-        }
-
-        HealthManager player = collision.attachedRigidbody.GetComponent<HealthManager>();
-        if (player != null) {
-            player.GetDamage();
-            GetDamage(DamageQuality.instaDeath);
-        }
-
-    }
-
-
-    #endregion
-
-    public void SetImmunity(bool isImmune) {
+    private void SetImmunity(bool isImmune) {
         this.isImmune = isImmune;
     }
 
-    [Button]
-    void ggg() {
-        TakeDamage(GetDamage(DamageQuality.poor));
-    }
+    #endregion
 
 }

@@ -20,7 +20,7 @@ public class HealthManager : MonoBehaviour {
     }
 
     [Button]
-    public void GetDamage(int damageAmount = 1) {
+    public void TakeDamage(int damageAmount = 1) {
 
         currentHealth -= damageAmount;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);

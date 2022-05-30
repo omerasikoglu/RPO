@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7ea1017e2f6855547a7eaed54c9d050f, type: 3}
-  m_Name: MinionList
+  m_Name: MinionTypeListSO
   m_EditorClassIdentifier: 
   list:
   - {fileID: 11400000, guid: 2c357bcf383d52341bd65ee195439a41, type: 2}
