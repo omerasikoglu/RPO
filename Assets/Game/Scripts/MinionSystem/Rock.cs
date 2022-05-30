@@ -9,20 +9,20 @@ public class Rock : Minion {
 
         Rock rock = collision.attachedRigidbody.GetComponent<Rock>();
         if (rock != null) {
-            CalculateCombat(rock, DamageQualityEnum.normal, DamageQualityEnum.normal);
+            CalculateCombat(rock, DamageQuality.normal, DamageQuality.normal);
         }
 
         Scissors scissors = collision.attachedRigidbody.GetComponent<Scissors>();
         if (scissors != null) {
-            CalculateCombat(scissors, DamageQualityEnum.poor, DamageQualityEnum.critical);
+            CalculateCombat(scissors, DamageQuality.poor, DamageQuality.critical);
         }
 
         Paper paper = collision.attachedRigidbody.GetComponent<Paper>();
         if (paper != null) {
-            CalculateCombat(paper, DamageQualityEnum.critical, DamageQualityEnum.poor);
+            CalculateCombat(paper, DamageQuality.critical, DamageQuality.poor);
         }
 
-        void CalculateCombat(Minion enemyMinion, DamageQualityEnum youHurt, DamageQualityEnum enemyHurt) {
+        void CalculateCombat(Minion enemyMinion, DamageQuality youHurt, DamageQuality enemyHurt) {
 
             enemyMinion.TakeDamage(GetDamage(enemyHurt));
             TakeDamage(GetDamage(youHurt));

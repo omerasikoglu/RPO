@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using NaughtyAttributes;
 
-public enum SizeEnum { small = 1, normal = 2, big = 3 };
-public enum DamageQualityEnum { poor = 1, normal = 2, critical = 3, instaDeath = 4 };
+public enum Size { small = 1, normal = 2, big = 3 };
+public enum DamageQuality { poor = 1, normal = 2, critical = 3, instaDeath = 4 };
 public abstract class Minion : MonoBehaviour {
 
     public static Minion Create(Transform pfTransform, Vector3 pos) {
@@ -22,7 +22,7 @@ public abstract class Minion : MonoBehaviour {
 
     [SerializeField] protected MinionOptionsSO options;
 
-    private SizeEnum minionScale;
+    private Size minionScale;
 
     [ShowNonSerializedField] private float currentHealth, currentMana, currentScale, currentMovementSpeed;
     [ShowNonSerializedField] private bool isImmune = false;
@@ -50,19 +50,19 @@ public abstract class Minion : MonoBehaviour {
 
         minionScale = UnityEngine.Random.value switch
         {
-            < .01f => SizeEnum.small,
-            > .99f => SizeEnum.big,
-            _ => SizeEnum.normal
+            < .01f => Size.small,
+            > .99f => Size.big,
+            _ => Size.normal
         };
 
         SetStats(minionScale);
 
-        void SetStats(SizeEnum scale) {
+        void SetStats(Size scale) {
 
             switch (scale) {
-                case SizeEnum.small: SetChangeAmounts(.5f, .5f, .75f); break;
-                case SizeEnum.normal: SetChangeAmounts(1f, 1f, 1f); break;
-                case SizeEnum.big: SetChangeAmounts(2f, 2f, 1.25f); break;
+                case Size.small: SetChangeAmounts(.5f, .5f, .75f); break;
+                case Size.normal: SetChangeAmounts(1f, 1f, 1f); break;
+                case Size.big: SetChangeAmounts(2f, 2f, 1.25f); break;
                 default: SetChangeAmounts(1f, 1f, 1f); break;
             }
 
@@ -117,17 +117,17 @@ public abstract class Minion : MonoBehaviour {
         StartCoroutine(UtilsClass.WaitForFixedUpdate(() => { SetImmunity(false); }));
 
     }
-    public TeamEnum GetTeam() {
+    public Team GetTeam() {
         return options.team;
     }
 
-    protected float GetDamage(DamageQualityEnum damageQuality) {
+    protected float GetDamage(DamageQuality damageQuality) {
         return damageQuality switch
         {
-            (DamageQualityEnum)1 => options.DefaultDamage * .5f,
-            (DamageQualityEnum)2 => options.DefaultDamage,
-            (DamageQualityEnum)3 => options.DefaultDamage * 2,
-            (DamageQualityEnum)4 => options.DefaultDamage * 10,
+            (DamageQuality)1 => options.DefaultDamage * .5f,
+            (DamageQuality)2 => options.DefaultDamage,
+            (DamageQuality)3 => options.DefaultDamage * 2,
+            (DamageQuality)4 => options.DefaultDamage * 10,
             _ => options.DefaultDamage
         };
     }
@@ -139,14 +139,14 @@ public abstract class Minion : MonoBehaviour {
 
         Octopus octopus = collision.attachedRigidbody.GetComponent<Octopus>();
         if (octopus != null) {
-            octopus.TakeDamage(GetDamage(DamageQualityEnum.poor));
-            GetDamage(DamageQualityEnum.critical);
+            octopus.TakeDamage(GetDamage(DamageQuality.poor));
+            GetDamage(DamageQuality.critical);
         }
 
         HealthManager player = collision.attachedRigidbody.GetComponent<HealthManager>();
         if (player != null) {
             player.GetDamage();
-            GetDamage(DamageQualityEnum.instaDeath);
+            GetDamage(DamageQuality.instaDeath);
         }
 
     }
@@ -160,7 +160,7 @@ public abstract class Minion : MonoBehaviour {
 
     [Button]
     void ggg() {
-        TakeDamage(GetDamage(DamageQualityEnum.poor));
+        TakeDamage(GetDamage(DamageQuality.poor));
     }
 
 }
