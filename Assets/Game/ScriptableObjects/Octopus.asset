@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9637c098b4ff3b647b762d8c0b327d96, type: 3}
-  m_Name: Scissors
+  m_Name: Octopus
   m_EditorClassIdentifier: 
-  minionName: Scissorrs
-  sprite: {fileID: 21300000, guid: e6e2bb7b3e10b00418d803b50e64d940, type: 3}
+  minionName: Octopus
+  sprite: {fileID: 21300000, guid: b08b8c8e61ac8fb42bec46925dec2c2d, type: 3}
   manaCost: 1
   colorHex: 
-  minionPrefab: {fileID: 4049285202448734536, guid: 23f682b04ceaae648b40e2690a4e3088, type: 3}
+  minionPrefab: {fileID: 500947753608541068, guid: a5abcf8506c656840b0836d4c7c407c7, type: 3}

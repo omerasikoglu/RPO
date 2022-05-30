@@ -108,7 +108,7 @@ GameObject:
   - component: {fileID: 8737048160698369176}
   - component: {fileID: 4102877721075830854}
   m_Layer: 0
-  m_Name: Minion
+  m_Name: pfMinion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
