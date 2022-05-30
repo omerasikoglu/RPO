@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using NaughtyAttributes;
 
-public enum Size { small = 1, normal = 2, big = 3 };
+public enum Scale { small = 1, normal = 2, big = 3 };
 public enum DamageQuality { poor = 1, normal = 2, critical = 3, instaDeath = 4 };
 public abstract class Minion : MonoBehaviour {
 
@@ -22,8 +22,6 @@ public abstract class Minion : MonoBehaviour {
 
     [SerializeField] protected MinionOptionsSO options;
 
-    private Size minionScale;
-
     [ShowNonSerializedField] private float currentHealth, currentMana, currentScale, currentMovementSpeed;
     [ShowNonSerializedField] private bool isImmune = false;
 
@@ -40,34 +38,44 @@ public abstract class Minion : MonoBehaviour {
         SetHealth(options.DefaultHealth);
         SetMana(options.DefaultMana);
         SetMovementSpeed(options.DefaultMovementSpeed);
+
         SetScale();
     }
 
-
+    private Scale currentMinionScale;
     protected void SetScale() {
 
-        minionScale = UnityEngine.Random.value switch
+        currentMinionScale = UnityEngine.Random.value switch
         {
-            < .01f => Size.small,
-            > .99f => Size.big,
-            _ => Size.normal
+            < .01f => Scale.small,
+            > .99f => Scale.big,
+            _ => Scale.normal
         };
 
-        SetStats(minionScale);
+        SetStats(currentMinionScale);
 
-        void SetStats(Size scale) {
+        void SetStats(Scale scale) {
 
             switch (scale) {
-                case Size.small: SetChangeAmounts(.5f, .5f, .75f); break;
-                case Size.normal: SetChangeAmounts(1f, 1f, 1f); break;
-                case Size.big: SetChangeAmounts(2f, 2f, 1.25f); break;
+                case Scale.small: SetChangeAmounts(.5f, .5f, .5f); break;
+                case Scale.normal: SetChangeAmounts(1f, 1f, 1f); break;
+                case Scale.big: SetChangeAmounts(2f, 2f, 1.5f); break;
                 default: SetChangeAmounts(1f, 1f, 1f); break;
             }
 
             void SetChangeAmounts(float healthAmount, float manaAmount, float scaleAmount) {
-                currentHealth *= healthAmount; currentMana *= manaAmount; currentScale *= scaleAmount;
+                currentHealth *= healthAmount; currentMana *= manaAmount; currentScale = scaleAmount;
             }
         }
+
+        UpdateScale();
+
+        void UpdateScale() {
+            if (currentScale.Equals(1)) return;
+
+            transform.DOScale(currentScale, 1f);
+        }
+
     }
     public Vector3 GetDirection() {
 
