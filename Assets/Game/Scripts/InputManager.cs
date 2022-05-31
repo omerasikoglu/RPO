@@ -36,7 +36,6 @@ public class InputManager : Singleton<InputManager> {
 
         OnSlidePerformed?.Invoke(touchControlMap.TouchActionMap.Slide.ReadValue<Vector2>());
     }
-
     private void EndTouch(InputAction.CallbackContext context) {
         if (IsPointerOutsideTheBorder()) return;
 
