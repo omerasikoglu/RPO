@@ -9,11 +9,11 @@ public class MinionFactory : Singleton<MinionFactory> {
     [SerializeField] private List<Transform> spawnPositionList;
     [SerializeField] private MinionTypeListSO minionTypeList;
 
-    protected Vector3 GetMateSpawnPos(MateSpawnPoint spawnPoint) {
+    protected Vector3 GetMateSpawnPos(Roads spawnPoint) {
         return spawnPoint switch
         {
-            (MateSpawnPoint)1 => spawnPositionList[0] != null ? spawnPositionList[0].position : new Vector3(-2f, 0f, 2f),
-            (MateSpawnPoint)2 => spawnPositionList[1] != null ? spawnPositionList[1].position : new Vector3(2f, 0f, 2f),
+            (Roads)1 => spawnPositionList[0] != null ? spawnPositionList[0].position : new Vector3(-2f, 0f, 2f),
+            (Roads)2 => spawnPositionList[1] != null ? spawnPositionList[1].position : new Vector3(2f, 0f, 2f),
             _ => new Vector3(-2f, 0f, 2f)
         };
     }

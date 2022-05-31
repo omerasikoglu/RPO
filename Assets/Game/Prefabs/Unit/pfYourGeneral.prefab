@@ -16,8 +16,12 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 513889770393257872, guid: 7c844c6640778a1408e64c7d5646ddee, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.82
+      objectReference: {fileID: 0}
+    - target: {fileID: 513889770393257872, guid: 7c844c6640778a1408e64c7d5646ddee, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -1.84
       objectReference: {fileID: 0}
     - target: {fileID: 513889770393257872, guid: 7c844c6640778a1408e64c7d5646ddee, type: 3}
       propertyPath: m_LocalPosition.y
@@ -25,7 +29,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 513889770393257872, guid: 7c844c6640778a1408e64c7d5646ddee, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 513889770393257872, guid: 7c844c6640778a1408e64c7d5646ddee, type: 3}
       propertyPath: m_LocalRotation.w
@@ -33,15 +37,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 513889770393257872, guid: 7c844c6640778a1408e64c7d5646ddee, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 513889770393257872, guid: 7c844c6640778a1408e64c7d5646ddee, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 513889770393257872, guid: 7c844c6640778a1408e64c7d5646ddee, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 513889770393257872, guid: 7c844c6640778a1408e64c7d5646ddee, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -80,18 +84,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4d65eb6e08ea3504a9a7366dce0e82b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &4470394373699946831
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7962077980881231156}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c3d16a03d012ee345af38a99890870bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &8987393312663637344

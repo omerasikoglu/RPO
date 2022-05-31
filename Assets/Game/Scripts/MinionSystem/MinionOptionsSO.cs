@@ -2,7 +2,7 @@ using UnityEngine;
 
 public enum Team { red, green, blue };
 
-public enum MateSpawnPoint : int
+public enum Roads : int
 {
     road1 = 1, 
     road2 = 2,
