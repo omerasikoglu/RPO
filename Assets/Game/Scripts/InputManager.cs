@@ -7,7 +7,7 @@ using NaughtyAttributes;
 [DefaultExecutionOrder(-1)]
 public class InputManager : MonoBehaviour {
     public event Action<Vector2> OnTouchPerformedWithCoords, OnCoordTouchEnded; //return coord
-    public event Action<Vector2> OnSlidePerformed; //returns delta
+    public event Action<Vector2> OnSlidePerformed, OnSwipePerformed; //returns delta
     public event Action OnTouchPerformed, OnTouchEnded;
 
     private TouchControlMap touchControlMap;
@@ -25,11 +25,16 @@ public class InputManager : MonoBehaviour {
         void Observer() {
             touchControlMap.TouchActionMap.Touch.performed += PerformTouch;
             touchControlMap.TouchActionMap.Slide.performed += PerformSlide;
+            touchControlMap.TouchActionMap.Swipe.performed += PerformSwipe;
             touchControlMap.TouchActionMap.TouchContact.canceled += EndTouch;
             touchControlMap.TouchActionMap.TouchContact.performed += PerformTouch;
         }
     }
-    
+
+    private void PerformSwipe(InputAction.CallbackContext obj) {
+        OnSwipePerformed?.Invoke(touchControlMap.TouchActionMap.Swipe.ReadValue<Vector2>());
+    }
+
     private void PerformTouch(InputAction.CallbackContext context) {
         if (IsPointerOutsideTheBorder()) return;
 

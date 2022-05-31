@@ -53,6 +53,15 @@ public partial class @TouchControlMap : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Swipe"",
+                    ""type"": ""Value"",
+                    ""id"": ""beb1eb86-d177-48b4-9585-747612d07edc"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -88,6 +97,17 @@ public partial class @TouchControlMap : IInputActionCollection2, IDisposable
                     ""action"": ""TouchContact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9d0b0e5f-7675-4d74-801d-7c89369894bf"",
+                    ""path"": ""<Touchscreen>/primaryTouch/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Swipe"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -99,6 +119,7 @@ public partial class @TouchControlMap : IInputActionCollection2, IDisposable
         m_TouchActionMap_Touch = m_TouchActionMap.FindAction("Touch", throwIfNotFound: true);
         m_TouchActionMap_Slide = m_TouchActionMap.FindAction("Slide", throwIfNotFound: true);
         m_TouchActionMap_TouchContact = m_TouchActionMap.FindAction("TouchContact", throwIfNotFound: true);
+        m_TouchActionMap_Swipe = m_TouchActionMap.FindAction("Swipe", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -161,6 +182,7 @@ public partial class @TouchControlMap : IInputActionCollection2, IDisposable
     private readonly InputAction m_TouchActionMap_Touch;
     private readonly InputAction m_TouchActionMap_Slide;
     private readonly InputAction m_TouchActionMap_TouchContact;
+    private readonly InputAction m_TouchActionMap_Swipe;
     public struct TouchActionMapActions
     {
         private @TouchControlMap m_Wrapper;
@@ -168,6 +190,7 @@ public partial class @TouchControlMap : IInputActionCollection2, IDisposable
         public InputAction @Touch => m_Wrapper.m_TouchActionMap_Touch;
         public InputAction @Slide => m_Wrapper.m_TouchActionMap_Slide;
         public InputAction @TouchContact => m_Wrapper.m_TouchActionMap_TouchContact;
+        public InputAction @Swipe => m_Wrapper.m_TouchActionMap_Swipe;
         public InputActionMap Get() { return m_Wrapper.m_TouchActionMap; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -186,6 +209,9 @@ public partial class @TouchControlMap : IInputActionCollection2, IDisposable
                 @TouchContact.started -= m_Wrapper.m_TouchActionMapActionsCallbackInterface.OnTouchContact;
                 @TouchContact.performed -= m_Wrapper.m_TouchActionMapActionsCallbackInterface.OnTouchContact;
                 @TouchContact.canceled -= m_Wrapper.m_TouchActionMapActionsCallbackInterface.OnTouchContact;
+                @Swipe.started -= m_Wrapper.m_TouchActionMapActionsCallbackInterface.OnSwipe;
+                @Swipe.performed -= m_Wrapper.m_TouchActionMapActionsCallbackInterface.OnSwipe;
+                @Swipe.canceled -= m_Wrapper.m_TouchActionMapActionsCallbackInterface.OnSwipe;
             }
             m_Wrapper.m_TouchActionMapActionsCallbackInterface = instance;
             if (instance != null)
@@ -199,6 +225,9 @@ public partial class @TouchControlMap : IInputActionCollection2, IDisposable
                 @TouchContact.started += instance.OnTouchContact;
                 @TouchContact.performed += instance.OnTouchContact;
                 @TouchContact.canceled += instance.OnTouchContact;
+                @Swipe.started += instance.OnSwipe;
+                @Swipe.performed += instance.OnSwipe;
+                @Swipe.canceled += instance.OnSwipe;
             }
         }
     }
@@ -208,5 +237,6 @@ public partial class @TouchControlMap : IInputActionCollection2, IDisposable
         void OnTouch(InputAction.CallbackContext context);
         void OnSlide(InputAction.CallbackContext context);
         void OnTouchContact(InputAction.CallbackContext context);
+        void OnSwipe(InputAction.CallbackContext context);
     }
 }
