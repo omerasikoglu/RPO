@@ -1,14 +1,20 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Linq;
 
 [DefaultExecutionOrder(-1)]
-public class InputManager : Singleton<InputManager> {
-    public event Action<Vector2> OnCoordTouchPerformed, OnCoordTouchEnded; //return coord
+public class InputManager : MonoBehaviour {
+    public event Action<Vector2> OnTouchWithCoordsPerformed, OnCoordTouchEnded; //return coord
     public event Action<Vector2> OnSlidePerformed; //returns delta
     public event Action OnTouchPerformed, OnTouchEnded;
 
+    public event Action OnTouchingGeneralPlaces;
+
     private TouchControlMap touchControlMap;
+    private bool IsTouching => touchControlMap.TouchActionMap.TouchContact.IsPressed();
+    private Vector2 TouchCoords => touchControlMap.TouchActionMap.Touch.ReadValue<Vector2>();
+
 
     private void Awake() => touchControlMap = new TouchControlMap();
     private void OnEnable() => touchControlMap.Enable();
@@ -25,11 +31,38 @@ public class InputManager : Singleton<InputManager> {
             touchControlMap.TouchActionMap.TouchContact.performed += PerformTouch;
         }
     }
+
+    private RaycastHit[] hits = new RaycastHit[5]; 
+    private void Update()
+    {
+        if (!IsTouching) return;
+
+        //check IsTouchingGeneralPlaces
+
+        Ray ray = UtilsClass.GetScreenPointToRay(TouchCoords);
+
+        int hitCount = Physics.RaycastNonAlloc(ray, hits, Mathf.Infinity, 1);
+        var results = hits.Take(hitCount);
+
+        var isTouchable = results.Any(o=>o.transform.CompareTag("Touchable"));
+
+        if (!isTouchable) return;
+
+        Debug.Log("general place1 ");
+
+    }
+
     private void PerformTouch(InputAction.CallbackContext context) {
         if (IsPointerOutsideTheBorder()) return;
 
         OnTouchPerformed?.Invoke();
-        OnCoordTouchPerformed?.Invoke(touchControlMap.TouchActionMap.Touch.ReadValue<Vector2>());
+        
+        var coords = touchControlMap.TouchActionMap.Touch.ReadValue<Vector2>();
+        OnTouchWithCoordsPerformed?.Invoke(coords);
+
+      
+
+
     }
     private void PerformSlide(InputAction.CallbackContext context) {
         if (IsPointerOutsideTheBorder()) return;
@@ -45,4 +78,7 @@ public class InputManager : Singleton<InputManager> {
     private bool IsPointerOutsideTheBorder() {
         return float.IsInfinity(touchControlMap.TouchActionMap.Touch.ReadValue<Vector2>().x);
     }
+
+
+
 }

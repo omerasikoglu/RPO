@@ -19,27 +19,27 @@ public class MinionContainerUI : MonoBehaviour {
 
     private Dictionary<MinionTypeSO, Transform> minionTypeTransformDic;
 
-    #region Input
-    [SerializeField] private InputManager inputManager;
+    //#region Input
+    //[SerializeField] private InputManager inputManager;
 
-    private void OnEnable() {
-        inputManager.OnCoordTouchPerformed += InputManagerOnCoordTouchPerformed;
-    }
-    private void OnDisable() {
-        inputManager.OnCoordTouchPerformed -= InputManagerOnCoordTouchPerformed;
-    }
+    //private void OnEnable() {
+    //    inputManager.OnTouchWithCoordsPerformed += InputManagerOnTouchWithCoordsPerformed;
+    //}
+    //private void OnDisable() {
+    //    inputManager.OnTouchWithCoordsPerformed -= InputManagerOnTouchWithCoordsPerformed;
+    //}
 
-    private void InputManagerOnCoordTouchPerformed(Vector2 coord)
-    {
-        if (EventSystem.current.IsPointerOverGameObject()) return;
-        //if (!ManaManager.Instance.HaveEnoughMana()) return;
+    //private void InputManagerOnTouchWithCoordsPerformed(Vector2 coord)
+    //{
+    //    if (EventSystem.current.IsPointerOverGameObject()) return;
+    //    //if (!ManaManager.Instance.HaveEnoughMana()) return;
         
-        //TODO: Not enough mana tooltipUI
-    }
+    //    //TODO: Not enough mana tooltipUI
+    //}
 
 
 
-    #endregion
+    //#endregion
 
 
 
