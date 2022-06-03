@@ -15,11 +15,15 @@ public class Rock : Minion {
         return rock;
     }
 
-    
+    protected override void Awake() {
+        base.Awake();
+        SetMinionType(MinionType.rock);
+    }
+
     private void OnTriggerEnter(Collider collision) {
 
         #region base // BUG: cant colliding when inherit from base class
-        
+
         HealthManager general = collision.attachedRigidbody.GetComponent<HealthManager>(); //general health
         if (general != null) {
             general.TakeDamage();

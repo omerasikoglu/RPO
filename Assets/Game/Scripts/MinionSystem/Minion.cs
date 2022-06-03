@@ -24,11 +24,12 @@ public abstract class Minion : MonoBehaviour, IDamageable {
 
     [ShowNonSerializedField] private float currentHealth, currentMana, currentScale, currentMovementSpeed;
     [ShowNonSerializedField] private bool isImmune = false;
+    [ShowNonSerializedField] private MinionType minionType;
 
-    public void Awake() {
+    protected virtual void Awake() {
         Setup();
     }
-    public void Update() {
+    private void Update() {
         transform.Translate(currentMovementSpeed * GetDirection() * Time.deltaTime);
     }
     #region First Create
@@ -38,10 +39,12 @@ public abstract class Minion : MonoBehaviour, IDamageable {
         SetHealth(options.DefaultHealth);
         SetMana(options.DefaultMana);
         SetMovementSpeed(options.DefaultMovementSpeed);
-
         SetScale();
     }
 
+    protected virtual void SetMinionType(MinionType minionType) {
+        this.minionType = minionType;
+    }
     private Scale currentMinionScale;
     protected void SetScale() {
 
@@ -123,6 +126,8 @@ public abstract class Minion : MonoBehaviour, IDamageable {
         StartCoroutine(UtilsClass.WaitForFixedUpdate(() => { SetImmunity(false); }));
 
     }
+
+    public MinionType GetMinionType => minionType;
     public Team GetTeam() {
         return options.team;
     }
