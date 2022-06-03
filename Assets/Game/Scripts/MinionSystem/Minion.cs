@@ -5,7 +5,7 @@ using UnityEngine;
 using NaughtyAttributes;
 
 public enum Scale { small = 1, normal = 2, big = 3 };
-public enum DamageQuality { poor = 1, normal = 2, critical = 3, instaDeath = 4 };
+public enum DamageQuality { one = 1, poor = 2, normal = 3, critical = 4, instaDeath = 5 };
 public abstract class Minion : MonoBehaviour, IDamageable {
 
     //public static Minion Create(Transform pfTransform, Vector3 pos) {
@@ -24,7 +24,7 @@ public abstract class Minion : MonoBehaviour, IDamageable {
 
     [ShowNonSerializedField] private float currentHealth, currentMana, currentScale, currentMovementSpeed;
     [ShowNonSerializedField] private bool isImmune = false;
-    [ShowNonSerializedField] protected MinionType minionType;
+    [ShowNonSerializedField] protected UnitType minionType;
 
     protected virtual void Awake() {
         Setup();
@@ -42,7 +42,7 @@ public abstract class Minion : MonoBehaviour, IDamageable {
         SetScale();
     }
 
-    protected virtual void SetMinionType(MinionType minionType) {
+    protected virtual void SetMinionType(UnitType minionType) {
         this.minionType = minionType;
     }
     private Scale currentMinionScale;
@@ -106,9 +106,11 @@ public abstract class Minion : MonoBehaviour, IDamageable {
     #endregion
 
     #region interface
-    public void TakeDamage(float damageAmount) {
+    public void TakeDamage(DamageQuality damageQuality) {
 
         if (isImmune) return;
+
+        float damageAmount = GetDamage(damageQuality);
 
         SetImmunity(true);
 
@@ -127,7 +129,7 @@ public abstract class Minion : MonoBehaviour, IDamageable {
 
     }
 
-    public MinionType GetMinionType() {
+    public UnitType GetMinionType() {
         return minionType;
     }
     public Team GetTeam() {
@@ -138,19 +140,26 @@ public abstract class Minion : MonoBehaviour, IDamageable {
 
 
     #region Collision
+
+
     protected float GetDamage(DamageQuality damageQuality) {
         return damageQuality switch
         {
-            (DamageQuality)1 => options.DefaultDamage * .5f,
-            (DamageQuality)2 => options.DefaultDamage,
-            (DamageQuality)3 => options.DefaultDamage * 2,
-            (DamageQuality)4 => options.DefaultDamage * 10,
+            (DamageQuality)1 => 1,
+            (DamageQuality)2 => options.DefaultDamage * .5f,
+            (DamageQuality)3 => options.DefaultDamage,
+            (DamageQuality)4 => options.DefaultDamage * 2,
+            (DamageQuality)5 => options.DefaultDamage * 10,
             _ => options.DefaultDamage
         };
     }
     private void SetImmunity(bool isImmune) {
         this.isImmune = isImmune;
     }
+
+
+
+
 
     #endregion
 

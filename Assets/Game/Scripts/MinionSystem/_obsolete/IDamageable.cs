@@ -4,7 +4,7 @@ using UnityEngine;
 
 public interface IDamageable
 {
-    void TakeDamage(float damageAmount);
+    void TakeDamage(DamageQuality damageQuality);
     Team GetTeam();
-    MinionType GetMinionType();
+    UnitType GetMinionType();
 }
