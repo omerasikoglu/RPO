@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Paper
   m_EditorClassIdentifier: 
   minionName: Paper
+  minionType: 2
   sprite: {fileID: 21300000, guid: a8faace67858da54d8e1953b62203441, type: 3}
   manaCost: 1
   colorHex: 

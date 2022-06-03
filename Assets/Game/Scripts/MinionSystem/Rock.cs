@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,47 +16,30 @@ public class Rock : Minion {
         return rock;
     }
 
-    
-    private void OnTriggerEnter(Collider collision) {
+    protected override void Awake() {
+        base.Awake();
+        SetMinionType(UnitType.rock);
+    }
 
-        #region base // BUG: cant colliding when inherit from base class
-        
-        HealthManager general = collision.attachedRigidbody.GetComponent<HealthManager>(); //general health
-        if (general != null) {
-            general.TakeDamage();
-            TakeDamage(GetDamage(DamageQuality.instaDeath));
+    private void OnTriggerEnter(Collider collision) {  // BUG: cant colliding when inherit from base class
+
+        IDamageable damageable = collision.attachedRigidbody.GetComponent<IDamageable>();
+        if (damageable == null) return;
+        if (GetTeam().Equals(damageable.GetTeam())) return;
+        Debug.Log("done");
+
+        switch (damageable.GetMinionType()) { // ? could be get calculated values before the combat from some method
+            case (UnitType)1: CalculateCombat(DamageQuality.normal, DamageQuality.normal); break;
+            case (UnitType)2: CalculateCombat(DamageQuality.critical, DamageQuality.poor);
+                 break;
+            case (UnitType)3: CalculateCombat(DamageQuality.poor, DamageQuality.critical); break;
+            case (UnitType)4: CalculateCombat(DamageQuality.critical, DamageQuality.poor); break;
+            case (UnitType)5: CalculateCombat(DamageQuality.instaDeath, DamageQuality.one); break;
         }
 
-        Minion minion = collision.attachedRigidbody.GetComponent<Minion>();
-        if (minion == null) return;
-        if (GetTeam().Equals(minion.GetTeam())) return;
-
-        Octopus octopus = collision.attachedRigidbody.GetComponent<Octopus>();
-        if (octopus != null) {
-            CalculateCombat(octopus, DamageQuality.critical, DamageQuality.poor);
-        }
-
-        #endregion
-
-        Rock rock = collision.attachedRigidbody.GetComponent<Rock>();
-        if (rock != null) {
-            CalculateCombat(rock, DamageQuality.normal, DamageQuality.normal);
-        }
-
-        Scissors scissors = collision.attachedRigidbody.GetComponent<Scissors>();
-        if (scissors != null) {
-            CalculateCombat(scissors, DamageQuality.poor, DamageQuality.critical);
-        }
-
-        Paper paper = collision.attachedRigidbody.GetComponent<Paper>();
-        if (paper != null) {
-            CalculateCombat(paper, DamageQuality.critical, DamageQuality.poor);
-        }
-
-        void CalculateCombat(Minion enemyMinion, DamageQuality youHurt, DamageQuality enemyHurt) {
-
-            enemyMinion.TakeDamage(GetDamage(enemyHurt));
-            TakeDamage(GetDamage(youHurt));
+        void CalculateCombat(DamageQuality youHurt, DamageQuality enemyHurt) {
+            damageable.TakeDamage(enemyHurt);
+            TakeDamage(youHurt);
         }
     }
 

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   team: 0
   movementSpeed: 0
-  scale: 1.5625
+  scale: 1
   damageAmount: 2
   maxHealth: 2
   maxMana: 2

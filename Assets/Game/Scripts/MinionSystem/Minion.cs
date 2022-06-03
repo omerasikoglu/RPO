@@ -5,7 +5,7 @@ using UnityEngine;
 using NaughtyAttributes;
 
 public enum Scale { small = 1, normal = 2, big = 3 };
-public enum DamageQuality { poor = 1, normal = 2, critical = 3, instaDeath = 4 };
+public enum DamageQuality { one = 1, poor = 2, normal = 3, critical = 4, instaDeath = 5 };
 public abstract class Minion : MonoBehaviour, IDamageable {
 
     //public static Minion Create(Transform pfTransform, Vector3 pos) {
@@ -24,11 +24,12 @@ public abstract class Minion : MonoBehaviour, IDamageable {
 
     [ShowNonSerializedField] private float currentHealth, currentMana, currentScale, currentMovementSpeed;
     [ShowNonSerializedField] private bool isImmune = false;
+    [ShowNonSerializedField] protected UnitType minionType;
 
-    public void Awake() {
+    protected virtual void Awake() {
         Setup();
     }
-    public void Update() {
+    private void Update() {
         transform.Translate(currentMovementSpeed * GetDirection() * Time.deltaTime);
     }
     #region First Create
@@ -38,10 +39,12 @@ public abstract class Minion : MonoBehaviour, IDamageable {
         SetHealth(options.DefaultHealth);
         SetMana(options.DefaultMana);
         SetMovementSpeed(options.DefaultMovementSpeed);
-
         SetScale();
     }
 
+    protected virtual void SetMinionType(UnitType minionType) {
+        this.minionType = minionType;
+    }
     private Scale currentMinionScale;
     protected void SetScale() {
 
@@ -102,10 +105,12 @@ public abstract class Minion : MonoBehaviour, IDamageable {
 
     #endregion
 
-    #region Collision
-    public void TakeDamage(float damageAmount) {
+    #region interface
+    public void TakeDamage(DamageQuality damageQuality) {
 
         if (isImmune) return;
+
+        float damageAmount = GetDamage(damageQuality);
 
         SetImmunity(true);
 
@@ -123,23 +128,38 @@ public abstract class Minion : MonoBehaviour, IDamageable {
         StartCoroutine(UtilsClass.WaitForFixedUpdate(() => { SetImmunity(false); }));
 
     }
+
+    public UnitType GetMinionType() {
+        return minionType;
+    }
     public Team GetTeam() {
         return options.team;
     }
 
+    #endregion
+
+
+    #region Collision
+
+
     protected float GetDamage(DamageQuality damageQuality) {
         return damageQuality switch
         {
-            (DamageQuality)1 => options.DefaultDamage * .5f,
-            (DamageQuality)2 => options.DefaultDamage,
-            (DamageQuality)3 => options.DefaultDamage * 2,
-            (DamageQuality)4 => options.DefaultDamage * 10,
+            (DamageQuality)1 => 1,
+            (DamageQuality)2 => options.DefaultDamage * .5f,
+            (DamageQuality)3 => options.DefaultDamage,
+            (DamageQuality)4 => options.DefaultDamage * 2,
+            (DamageQuality)5 => options.DefaultDamage * 10,
             _ => options.DefaultDamage
         };
     }
     private void SetImmunity(bool isImmune) {
         this.isImmune = isImmune;
     }
+
+
+
+
 
     #endregion
 

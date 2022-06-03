@@ -12,11 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d47da0434a899ae4a91216aab2911ead, type: 3}
   m_Name: RockOptionsStopping
   m_EditorClassIdentifier: 
-  pfMinion: {fileID: 6245401294473341198, guid: a65bb75c8c809cd4683ccbd00ed7c7d5, type: 3}
   team: 1
-  spawnPoint: 2
   movementSpeed: 0
-  scale: 1.5625
+  scale: 1
   damageAmount: 2
   maxHealth: 2
   maxMana: 2

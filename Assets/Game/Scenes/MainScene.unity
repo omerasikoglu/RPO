@@ -2079,8 +2079,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1794028694}
-  - component: {fileID: 1794028695}
   - component: {fileID: 1794028696}
+  - component: {fileID: 1794028697}
   m_Layer: 0
   m_Name: GeneralInputController
   m_TagString: Untagged
@@ -2105,20 +2105,6 @@ Transform:
   m_Father: {fileID: 446970531}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1794028695
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1794028693}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5908906c57dde5744a4e6fec14a33a12, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inputManager: {fileID: 614925274}
-  general: {fileID: 2101229223}
 --- !u!114 &1794028696
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2137,6 +2123,20 @@ MonoBehaviour:
   - {fileID: 1583196168}
   general: {fileID: 2101229223}
   deltaThreshold: 50
+--- !u!114 &1794028697
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1794028693}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5908906c57dde5744a4e6fec14a33a12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputManager: {fileID: 614925274}
+  general: {fileID: 2101229223}
 --- !u!1001 &1825931716
 PrefabInstance:
   m_ObjectHideFlags: 0
