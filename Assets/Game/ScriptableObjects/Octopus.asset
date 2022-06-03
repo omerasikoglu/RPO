@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Octopus
   m_EditorClassIdentifier: 
   minionName: Octopus
-  minionType: 3
+  minionType: 4
   sprite: {fileID: 21300000, guid: b08b8c8e61ac8fb42bec46925dec2c2d, type: 3}
   manaCost: 1
   colorHex: 

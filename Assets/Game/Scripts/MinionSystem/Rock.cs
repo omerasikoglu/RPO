@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -30,35 +31,21 @@ public class Rock : Minion {
             TakeDamage(GetDamage(DamageQuality.instaDeath));
         }
 
-        Minion minion = collision.attachedRigidbody.GetComponent<Minion>();
-        if (minion == null) return;
-        if (GetTeam().Equals(minion.GetTeam())) return;
+        IDamageable damageable = collision.attachedRigidbody.GetComponent<IDamageable>();
+        if (damageable == null) return;
+        if (GetTeam().Equals(damageable.GetTeam())) return;
 
-        Octopus octopus = collision.attachedRigidbody.GetComponent<Octopus>();
-        if (octopus != null) {
-            CalculateCombat(octopus, DamageQuality.critical, DamageQuality.poor);
+        switch (minionType) {
+            case (MinionType)1: CalculateCombat(DamageQuality.normal, DamageQuality.normal); break;
+            case (MinionType)2: CalculateCombat(DamageQuality.poor, DamageQuality.critical); break;
+            case (MinionType)3: CalculateCombat(DamageQuality.critical, DamageQuality.poor); break;
+            case (MinionType)4: CalculateCombat(DamageQuality.critical, DamageQuality.poor); break;
         }
 
         #endregion
 
-        Rock rock = collision.attachedRigidbody.GetComponent<Rock>();
-        if (rock != null) {
-            CalculateCombat(rock, DamageQuality.normal, DamageQuality.normal);
-        }
-
-        Scissors scissors = collision.attachedRigidbody.GetComponent<Scissors>();
-        if (scissors != null) {
-            CalculateCombat(scissors, DamageQuality.poor, DamageQuality.critical);
-        }
-
-        Paper paper = collision.attachedRigidbody.GetComponent<Paper>();
-        if (paper != null) {
-            CalculateCombat(paper, DamageQuality.critical, DamageQuality.poor);
-        }
-
-        void CalculateCombat(Minion enemyMinion, DamageQuality youHurt, DamageQuality enemyHurt) {
-
-            enemyMinion.TakeDamage(GetDamage(enemyHurt));
+        void CalculateCombat(DamageQuality youHurt, DamageQuality enemyHurt) {
+            damageable.TakeDamage(GetDamage(enemyHurt));
             TakeDamage(GetDamage(youHurt));
         }
     }

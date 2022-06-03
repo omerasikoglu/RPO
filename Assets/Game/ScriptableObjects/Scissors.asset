@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Scissors
   m_EditorClassIdentifier: 
   minionName: Scissorrs
-  minionType: 2
+  minionType: 3
   sprite: {fileID: 21300000, guid: e6e2bb7b3e10b00418d803b50e64d940, type: 3}
   manaCost: 1
   colorHex: 

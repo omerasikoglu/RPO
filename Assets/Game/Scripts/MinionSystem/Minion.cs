@@ -24,7 +24,7 @@ public abstract class Minion : MonoBehaviour, IDamageable {
 
     [ShowNonSerializedField] private float currentHealth, currentMana, currentScale, currentMovementSpeed;
     [ShowNonSerializedField] private bool isImmune = false;
-    [ShowNonSerializedField] private MinionType minionType;
+    [ShowNonSerializedField] protected MinionType minionType;
 
     protected virtual void Awake() {
         Setup();
@@ -105,7 +105,7 @@ public abstract class Minion : MonoBehaviour, IDamageable {
 
     #endregion
 
-    #region Collision
+    #region interface
     public void TakeDamage(float damageAmount) {
 
         if (isImmune) return;
@@ -127,11 +127,17 @@ public abstract class Minion : MonoBehaviour, IDamageable {
 
     }
 
-    public MinionType GetMinionType => minionType;
+    public MinionType GetMinionType() {
+        return minionType;
+    }
     public Team GetTeam() {
         return options.team;
     }
 
+    #endregion
+
+
+    #region Collision
     protected float GetDamage(DamageQuality damageQuality) {
         return damageQuality switch
         {

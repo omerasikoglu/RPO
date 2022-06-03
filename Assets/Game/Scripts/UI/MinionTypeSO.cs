@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 public enum MinionType {
-    rock,
-    paper,
-    scissors,
-    octopus
+    rock = 1,
+    paper = 2,
+    scissors = 3,
+    octopus = 4
 };
 
 [CreateAssetMenu(menuName = "ScriptableObjects/MinionType")]
