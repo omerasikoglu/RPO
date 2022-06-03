@@ -6,7 +6,7 @@ using NaughtyAttributes;
 
 public enum Scale { small = 1, normal = 2, big = 3 };
 public enum DamageQuality { poor = 1, normal = 2, critical = 3, instaDeath = 4 };
-public abstract class Minion : MonoBehaviour {
+public abstract class Minion : MonoBehaviour, IDamageable {
 
     //public static Minion Create(Transform pfTransform, Vector3 pos) {
 

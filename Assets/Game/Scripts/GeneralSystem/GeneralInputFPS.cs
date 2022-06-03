@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 
 public class GeneralInputFPS : MonoBehaviour {
-   
+
     [SerializeField] private InputManager inputManager;
     [SerializeField] private List<GeneralMovePoint> movePointList;
     [SerializeField] private Transform general;

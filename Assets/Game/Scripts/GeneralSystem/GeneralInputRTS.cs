@@ -11,8 +11,8 @@ public class GeneralInputRTS : MonoBehaviour {
 
     private bool isTouching => inputManager.IsTouching;
     private RaycastHit[] hits = new RaycastHit[5];
+    
     private void Update() => MoveWithColliders();
-
     private void MoveWithColliders() { //RTS Cam
         if (!isTouching) return;
         Ray ray = UtilsClass.GetScreenPointToRay(inputManager.TouchCoords);
@@ -24,7 +24,7 @@ public class GeneralInputRTS : MonoBehaviour {
         if (!isTouchable) return;
 
         GeneralMovePoint point = results.First().transform.GetComponentInParent<GeneralMovePoint>();
-        
+
         //if (currentRoad == point.Road) return;
 
         currentRoad = (int)point.Road;
