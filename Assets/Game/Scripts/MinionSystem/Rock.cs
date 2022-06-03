@@ -30,19 +30,19 @@ public class Rock : Minion {
             general.TakeDamage();
             TakeDamage(GetDamage(DamageQuality.instaDeath));
         }
+        #endregion
 
         IDamageable damageable = collision.attachedRigidbody.GetComponent<IDamageable>();
+       
         if (damageable == null) return;
         if (GetTeam().Equals(damageable.GetTeam())) return;
 
-        switch (minionType) {
+        switch (damageable.GetMinionType()) {
             case (MinionType)1: CalculateCombat(DamageQuality.normal, DamageQuality.normal); break;
-            case (MinionType)2: CalculateCombat(DamageQuality.poor, DamageQuality.critical); break;
-            case (MinionType)3: CalculateCombat(DamageQuality.critical, DamageQuality.poor); break;
+            case (MinionType)2: CalculateCombat(DamageQuality.critical, DamageQuality.poor); break;
+            case (MinionType)3: CalculateCombat(DamageQuality.poor, DamageQuality.critical); break;
             case (MinionType)4: CalculateCombat(DamageQuality.critical, DamageQuality.poor); break;
         }
-
-        #endregion
 
         void CalculateCombat(DamageQuality youHurt, DamageQuality enemyHurt) {
             damageable.TakeDamage(GetDamage(enemyHurt));
