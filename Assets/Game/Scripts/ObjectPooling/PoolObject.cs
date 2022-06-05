@@ -13,12 +13,12 @@ public class PoolObject : MonoBehaviour, IPoolable<PoolObject> {
     public void Awake() {
         objectRigidbody = GetComponent<Rigidbody>();
     }
-    private void OnDisable() {
-        ReturnToPool();
-    }
     public void OnEnable() {
         currentTimer = lifetime;
         objectRigidbody.velocity = Vector3.zero;
+    }
+    private void OnDisable() {
+        ReturnToPool();
     }
 
     public void Update() {
