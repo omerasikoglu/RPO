@@ -3,36 +3,36 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//TODO: Get currentRoad and minionType with EventArgs, Observer
+
 public class MinionFactory : Singleton<MinionFactory> {
 
 
     [SerializeField] private List<Transform> spawnPositionList;
     [SerializeField] private MinionTypeListSO minionTypeList;
 
-    protected Vector3 GetMateSpawnPos(Roads spawnPoint) {
-        return spawnPoint switch
-        {
-            (Roads)1 => spawnPositionList[0] != null ? spawnPositionList[0].position : new Vector3(-2f, 0f, 2f),
-            (Roads)2 => spawnPositionList[1] != null ? spawnPositionList[1].position : new Vector3(2f, 0f, 2f),
-            _ => new Vector3(-2f, 0f, 2f)
-        };
-    }
-
-    [Button] private void SpawnRock()
+    private Vector3 GetMateSpawnPos(Road spawnPoint) => spawnPoint switch
     {
-        Rock.Create(spawnPositionList[0].position);
+        (Road)1 => spawnPositionList[0]?.position ?? new Vector3(-2f, 0f, 2f),
+        (Road)2 => spawnPositionList[1]?.position ?? new Vector3(2f, 0f, 2f),
+        _ => Vector3.zero,
+    };
+
+    [Button]
+    private void SpawnRock() {
+        Rock.Create(GetMateSpawnPos((Road)1));
     }
     [Button]
     private void SpawnPaper() {
-        Paper.Create(spawnPositionList[0].position);
+        Paper.Create(GetMateSpawnPos((Road)1));
     }
     [Button]
     private void SpawnScissors() {
-        Scissors.Create(spawnPositionList[0].position);
+        Scissors.Create(GetMateSpawnPos((Road)1));
     }
     [Button]
     private void SpawnOctopus() {
-        Octopus.Create(spawnPositionList[0].position);
+        Octopus.Create(GetMateSpawnPos((Road)1));
     }
 
 }

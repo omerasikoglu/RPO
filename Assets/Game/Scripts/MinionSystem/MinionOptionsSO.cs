@@ -2,7 +2,7 @@ using UnityEngine;
 
 public enum Team { red, green, blue };
 
-public enum Roads : int
+public enum Road : int
 {
     road1 = 1, 
     road2 = 2,
