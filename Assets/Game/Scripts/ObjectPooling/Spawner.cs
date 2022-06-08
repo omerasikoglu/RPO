@@ -20,7 +20,9 @@ public class Spawner : MonoBehaviour {
         spherePool = new ObjectPool<PoolObject>(spherePrefab);
         capsulePool = new ObjectPool<PoolObject>(capsulePrefab);
         parentPool = new List<ObjectPool<PoolObject>> { cubePool, spherePool, capsulePool };
+    }
 
+    public void Start() {
         StartCoroutine(SpawnOverTime());
 
         IEnumerator SpawnOverTime() {
@@ -36,8 +38,6 @@ public class Spawner : MonoBehaviour {
             }
         }
     }
-
-
 
 
 }
