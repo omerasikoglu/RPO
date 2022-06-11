@@ -18,3 +18,4 @@ MonoBehaviour:
   manaCost: 1
   colorHex: 
   minionPrefab: {fileID: 500947753608541068, guid: a5abcf8506c656840b0836d4c7c407c7, type: 3}
+  minionGO: {fileID: 500947753608541067, guid: a5abcf8506c656840b0836d4c7c407c7, type: 3}

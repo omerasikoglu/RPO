@@ -6,17 +6,21 @@ public class Scissors : Minion {
 
     public static Scissors Create(Vector3 spawnPos) {
 
-        Transform scissorsPrefab = Resources.Load<MinionTypeListSO>(typeof(MinionTypeListSO).Name).GetScissors;
+        //Transform scissorsPrefab = Resources.Load<MinionTypeListSO>(typeof(MinionTypeListSO).Name).GetUnit(UnitType.scissors);
+        Transform scissorsPrefab = MinionFactory.Instance.PullUnit(UnitType.scissors).transform;
         Transform minionTransform = Instantiate(scissorsPrefab, spawnPos, Quaternion.identity);
 
         Scissors scissors = minionTransform.GetComponent<Scissors>();
-        scissors.Setup();
+        scissors.Init();
 
         return scissors;
     }
+    private void Awake() {
+        SetMinionType(UnitType.scissors);
+    }
     private void OnTriggerEnter(Collider collision) {
 
-        IDamageable damageable = collision.attachedRigidbody.GetComponent<IDamageable>();
+        IDamageable damageable = collision.GetComponentInParent<IDamageable>();
 
         if (damageable == null) return;
         if (GetTeam().Equals(damageable.GetTeam())) return;

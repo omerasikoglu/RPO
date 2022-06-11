@@ -33,7 +33,7 @@ public class Spawner : MonoBehaviour {
                 void Spawn() {
                     int random = Random.Range(0, 3);
                     Vector3 position = Random.insideUnitSphere * range + transform.position;
-                    parentPool[random].PullGameObject(position, Random.rotation);
+                    var pulledGO = parentPool[random].PullGameObject(position, Random.rotation);
                 }
             }
         }

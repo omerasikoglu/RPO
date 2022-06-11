@@ -5,18 +5,21 @@ using UnityEngine;
 public class Octopus : Minion {
     public static Octopus Create(Vector3 spawnPos) {
 
-        Transform octopusPrefab = Resources.Load<MinionTypeListSO>(typeof(MinionTypeListSO).Name).GetOctopus;
+        //Transform octopusPrefab = Resources.Load<MinionTypeListSO>(typeof(MinionTypeListSO).Name).GetUnit(UnitType.octopus);
+        Transform octopusPrefab = MinionFactory.Instance.PullUnit(UnitType.octopus).transform;
         Transform minionTransform = Instantiate(octopusPrefab, spawnPos, Quaternion.identity);
 
         Octopus octopus = minionTransform.GetComponent<Octopus>();
-        octopus.Setup();
+        octopus.Init();
 
         return octopus;
     }
-
+    private void Awake() {
+        SetMinionType(UnitType.octopus);
+    }
     private void OnTriggerEnter(Collider collision) {
 
-        IDamageable damageable = collision.attachedRigidbody.GetComponent<IDamageable>();
+        IDamageable damageable = collision.GetComponentInParent<IDamageable>();
 
         if (damageable == null) return;
         if (GetTeam().Equals(damageable.GetTeam())) return;

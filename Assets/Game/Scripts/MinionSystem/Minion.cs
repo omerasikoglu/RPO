@@ -6,7 +6,7 @@ using NaughtyAttributes;
 
 public enum Scale { small = 1, normal = 2, big = 3 };
 public enum DamageQuality { one = 1, poor = 2, normal = 3, critical = 4, instaDeath = 5 };
-public abstract class Minion : MonoBehaviour, IDamageable {
+public abstract class Minion : MonoBehaviour, IDamageable, IPoolable<Minion> {
 
     //public static Minion Create(Transform pfTransform, Vector3 pos) {
 
@@ -18,6 +18,7 @@ public abstract class Minion : MonoBehaviour, IDamageable {
     //    return minion;
     //}
 
+    private Action<Minion> OnReturnedToPool;
     public event Action OnDamageTaken, OnDead;
 
     [SerializeField] protected MinionOptionsSO options;
@@ -26,15 +27,11 @@ public abstract class Minion : MonoBehaviour, IDamageable {
     [ShowNonSerializedField] private bool isImmune = false;
     [ShowNonSerializedField] protected UnitType minionType;
 
-    protected virtual void Awake() {
-        Setup();
+    protected virtual void OnEnable() {
+        Init();
     }
-    private void Update() {
-        transform.Translate(currentMovementSpeed * GetDirection() * Time.deltaTime);
-    }
-    #region First Create
-    protected void Setup() {
-
+    public void Init() {
+        SetImmunity(false);
         GetDirection();
         SetHealth(options.DefaultHealth);
         SetMana(options.DefaultMana);
@@ -42,6 +39,7 @@ public abstract class Minion : MonoBehaviour, IDamageable {
         SetScale();
     }
 
+    #region First Create
     protected virtual void SetMinionType(UnitType minionType) {
         this.minionType = minionType;
     }
@@ -105,7 +103,16 @@ public abstract class Minion : MonoBehaviour, IDamageable {
 
     #endregion
 
-    #region interface
+    private void Update() {
+        transform.Translate(currentMovementSpeed * GetDirection() * Time.deltaTime);
+    }
+
+    private void OnDisable() {
+        ReturnToPool();
+    }
+
+
+    #region Implements
     public void TakeDamage(DamageQuality damageQuality) {
 
         if (isImmune) return;
@@ -121,23 +128,30 @@ public abstract class Minion : MonoBehaviour, IDamageable {
         if (currentHealth <= 0f) Dead(); void Dead() {
 
             OnDead?.Invoke();
-            Destroy(gameObject);
+            //Destroy(gameObject);
+            gameObject.SetActive(false);
 
         }
 
-        StartCoroutine(UtilsClass.WaitForFixedUpdate(() => { SetImmunity(false); }));
+        if (transform.gameObject.activeInHierarchy) {
+            StartCoroutine(UtilsClass.WaitForFixedUpdate(() => { SetImmunity(false); }));
+        }
 
     }
-
     public UnitType GetMinionType() {
         return minionType;
     }
     public Team GetTeam() {
         return options.team;
     }
+    public void Initialize(Action<Minion> returnAction) {
+        OnReturnedToPool = returnAction;
+    }
+    public void ReturnToPool() {
+        OnReturnedToPool?.Invoke(this);
+    }
 
     #endregion
-
 
     #region Collision
 
@@ -162,5 +176,6 @@ public abstract class Minion : MonoBehaviour, IDamageable {
 
 
     #endregion
+
 
 }

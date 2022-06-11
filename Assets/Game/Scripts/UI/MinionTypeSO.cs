@@ -17,5 +17,6 @@ public class MinionTypeSO : ScriptableObject {
     [SerializeField] private int manaCost; public int ManaCost => manaCost;
     [SerializeField] private string colorHex; public string ColorHex => minionName;
     [SerializeField] private Transform minionPrefab; public Transform MinionPrefab => minionPrefab;
+    [SerializeField] private GameObject minionGO; public GameObject MinionGO => minionGO;
 
 }

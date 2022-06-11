@@ -6,19 +6,23 @@ using UnityEngine;
 public class Paper : Minion {
     public static Paper Create(Vector3 spawnPos) {
 
-        Transform paperPrefab = Resources.Load<MinionTypeListSO>(typeof(MinionTypeListSO).Name).GetPaper;
+        //Transform paperPrefab = Resources.Load<MinionTypeListSO>(typeof(MinionTypeListSO).Name).GetUnit(UnitType.paper);
+        Transform paperPrefab = MinionFactory.Instance.PullUnit(UnitType.paper).transform;
         Transform minionTransform = Instantiate(paperPrefab, spawnPos, Quaternion.identity);
 
         Paper paper = minionTransform.GetComponent<Paper>();
-        paper.Setup();
+        paper.Init();
 
         return paper;
     }
 
+    private void Awake() {
+        SetMinionType(UnitType.paper);
+    }
 
     private void OnTriggerEnter(Collider collision) {
 
-        IDamageable damageable = collision.attachedRigidbody.GetComponent<IDamageable>();
+        IDamageable damageable = collision.GetComponentInParent<IDamageable>();
 
         if (damageable == null) return;
         if (GetTeam().Equals(damageable.GetTeam())) return;

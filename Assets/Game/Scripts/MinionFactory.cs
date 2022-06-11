@@ -1,3 +1,4 @@
+using System;
 using NaughtyAttributes;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,6 +11,27 @@ public class MinionFactory : Singleton<MinionFactory> {
 
     [SerializeField] private List<Transform> spawnPositionList;
     [SerializeField] private MinionTypeListSO minionTypeList;
+    [SerializeField] private Transform poolRoot;
+
+    private ObjectPool<Minion> rockPool, paperPool, scissorsPool, octopusPool;
+    private List<ObjectPool<Minion>> parentPool;
+
+    private Vector3 currentSpawnPosition;
+
+    public void Awake() {
+        currentSpawnPosition = GetMateSpawnPos((Road)1);
+    }
+    public void OnEnable() {
+
+        InitPools(); void InitPools() {
+            rockPool = new ObjectPool<Minion>(minionTypeList.GetUnit(UnitType.rock), 10, poolRoot);
+            paperPool = new ObjectPool<Minion>(minionTypeList.GetUnit(UnitType.paper), 10, poolRoot);
+            scissorsPool = new ObjectPool<Minion>(minionTypeList.GetUnit(UnitType.scissors), 10, poolRoot);
+            octopusPool = new ObjectPool<Minion>(minionTypeList.GetUnit(UnitType.octopus), 10, poolRoot);
+            parentPool = new List<ObjectPool<Minion>> { rockPool, paperPool, scissorsPool, octopusPool };
+        }
+
+    }
 
     private Vector3 GetMateSpawnPos(Road spawnPoint) => spawnPoint switch
     {
@@ -18,21 +40,36 @@ public class MinionFactory : Singleton<MinionFactory> {
         _ => Vector3.zero,
     };
 
+    public GameObject PullUnit(UnitType unitType) => unitType switch
+    {
+        UnitType.rock => parentPool[0].PullGameObject(currentSpawnPosition),
+        UnitType.paper => parentPool[1].PullGameObject(currentSpawnPosition),
+        UnitType.scissors => parentPool[2].PullGameObject(currentSpawnPosition),
+        UnitType.octopus => parentPool[3].PullGameObject(currentSpawnPosition),
+        _ => throw new NotImplementedException(),
+    };
+   
+    #region Test
     [Button]
     private void SpawnRock() {
-        Rock.Create(GetMateSpawnPos((Road)1));
+        //Rock.Create(GetMateSpawnPos((Road)1));
+        rockPool.PullGameObject(currentSpawnPosition);
     }
     [Button]
     private void SpawnPaper() {
-        Paper.Create(GetMateSpawnPos((Road)1));
+        //Paper.Create(GetMateSpawnPos((Road)1));
+        paperPool.PullGameObject(GetMateSpawnPos((Road)1));
     }
     [Button]
     private void SpawnScissors() {
-        Scissors.Create(GetMateSpawnPos((Road)1));
+        //Scissors.Create(GetMateSpawnPos((Road)1));
+        parentPool[2].PullGameObject(GetMateSpawnPos((Road)1));
     }
     [Button]
     private void SpawnOctopus() {
-        Octopus.Create(GetMateSpawnPos((Road)1));
+        //Octopus.Create(GetMateSpawnPos((Road)1));
+        parentPool[3].PullGameObject(GetMateSpawnPos((Road)1));
     }
 
+    #endregion
 }
