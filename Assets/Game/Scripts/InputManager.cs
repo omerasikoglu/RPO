@@ -6,6 +6,10 @@ using NaughtyAttributes;
 
 [DefaultExecutionOrder(-1)]
 public class InputManager : MonoBehaviour {
+
+    private Vector2 pointerCoords;
+    public Vector2 PointerCoords => pointerCoords;
+
     public event Action<Vector2> OnTouchPerformedWithCoords, OnCoordTouchEnded; //return coord
     public event Action<Vector2> OnSlidePerformed, OnSwipePerformed; //returns delta
     public event Action OnTouchPerformed, OnTouchEnded;
@@ -19,7 +23,7 @@ public class InputManager : MonoBehaviour {
     private void OnDisable() => touchControlMap.Disable();
 
     private void Start() {
-        
+
         Observer();
 
         void Observer() {
@@ -30,7 +34,6 @@ public class InputManager : MonoBehaviour {
             touchControlMap.TouchActionMap.TouchContact.performed += PerformTouch;
         }
     }
-
     private void PerformSwipe(InputAction.CallbackContext obj) {
         OnSwipePerformed?.Invoke(touchControlMap.TouchActionMap.Swipe.ReadValue<Vector2>());
     }
@@ -52,10 +55,8 @@ public class InputManager : MonoBehaviour {
         OnTouchEnded?.Invoke();
         OnCoordTouchEnded?.Invoke(touchControlMap.TouchActionMap.Touch.ReadValue<Vector2>());
     }
-    private bool IsPointerOutsideTheBorder() {
-        return float.IsInfinity(touchControlMap.TouchActionMap.Touch.ReadValue<Vector2>().x);
-    }
-
-
+    private bool IsPointerOutsideTheBorder() =>
+        float.IsInfinity(touchControlMap.TouchActionMap.Touch.ReadValue<Vector2>().x) ||
+        float.IsInfinity(touchControlMap.TouchActionMap.Touch.ReadValue<Vector2>().y);
 
 }

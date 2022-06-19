@@ -138,12 +138,9 @@ public abstract class Minion : MonoBehaviour, IDamageable, IPoolable<Minion> {
         }
 
     }
-    public UnitType GetMinionType() {
-        return minionType;
-    }
-    public Team GetTeam() {
-        return options.team;
-    }
+
+    public UnitType GetMinionType() => minionType;
+    public Team GetTeam() => options.team;
     public void Initialize(Action<Minion> returnAction) {
         OnReturnedToPool = returnAction;
     }
