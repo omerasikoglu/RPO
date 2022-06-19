@@ -12,12 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d47da0434a899ae4a91216aab2911ead, type: 3}
   m_Name: PaperOptionsDefault
   m_EditorClassIdentifier: 
-  pfMinion: {fileID: 0}
   team: 0
-  spawnPoint: 2
   movementSpeed: 2
-  scale: 1
   damageAmount: 2
   maxHealth: 2
   maxMana: 2
+  isScaleRandomnessIsActive: 1
+  scale: 2
   speedIncreaseAmount: 5

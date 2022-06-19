@@ -20,7 +20,7 @@ public class MinionOptionsSO : ScriptableObject {
     public float DefaultDamage => damageAmount;
 
     [SerializeField] private bool isScaleRandomnessIsActive; public bool IsScaleRandomnessActive => isScaleRandomnessIsActive;
-    [SerializeField, EnableIf(nameof(IsScaleRandomnessActive))] private Scale scale; public Scale DefaultScale => scale;
+    [SerializeField, DisableIf(nameof(IsScaleRandomnessActive))] private Scale scale; public Scale DefaultScale => scale;
 
 
     #region Spell variables
