@@ -33,7 +33,7 @@ public class MinionContainerUI : MonoBehaviour {
     //{
     //    if (EventSystem.current.IsPointerOverGameObject()) return;
     //    //if (!ManaManager.Instance.HaveEnoughMana()) return;
-        
+
     //    //TODO: Not enough mana tooltipUI
     //}
 
@@ -43,21 +43,34 @@ public class MinionContainerUI : MonoBehaviour {
 
 
 
-        private void Awake() {
-            minionTypeTransformDic = new Dictionary<MinionTypeSO, Transform>();
+    private void Awake() {
+        minionTypeTransformDic = new Dictionary<MinionTypeSO, Transform>();
 
-            PrototypePattern(); void PrototypePattern() {
-                minionTemplate.gameObject.SetActive(false);
+        PrototypePattern(); void PrototypePattern() {
+            minionTemplate.gameObject.SetActive(false);
 
-                foreach (var minionType in minionTypeList.List) {
-                    Transform minionTransform = Instantiate(minionTemplate, transform);
-                    minionTransform.gameObject.SetActive(true);
+            foreach (var minionType in minionTypeList.List) {
 
-                    minionTransform.GetComponent<Image>().sprite = minionType.Sprite;
-                    minionTypeTransformDic[minionType] = minionTransform;
-                }
+                if (!minionType.IsShowingToUI) continue;
+
+                Transform minionTransform = Instantiate(minionTemplate, transform);
+                minionTransform.gameObject.SetActive(true);
+
+                minionTransform.GetComponent<Image>().sprite = minionType.Sprite;
+                minionTypeTransformDic[minionType] = minionTransform;
+
+                PointerEvents pointerEvents = minionTransform.GetComponent<PointerEvents>();
+                //pointerEvents.OnPointerClick += somefunc;
+
+
+
             }
         }
-
+    }
+    public void somefunc(object sender, System.EventArgs args) {
+        Debug.Log("onpointerclick");
 
     }
+
+
+}

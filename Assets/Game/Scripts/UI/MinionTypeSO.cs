@@ -18,5 +18,6 @@ public class MinionTypeSO : ScriptableObject {
     [SerializeField] private string colorHex; public string ColorHex => minionName;
     [SerializeField] private Transform minionPrefab; public Transform MinionPrefab => minionPrefab;
     [SerializeField] private GameObject minionGO; public GameObject MinionGO => minionGO;
+    [SerializeField] private bool isShowingToUI; public bool IsShowingToUI => isShowingToUI;
 
 }
