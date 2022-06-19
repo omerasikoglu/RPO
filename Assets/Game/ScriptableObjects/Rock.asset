@@ -19,3 +19,4 @@ MonoBehaviour:
   colorHex: 
   minionPrefab: {fileID: 7660342951240364654, guid: 3efd96be7f1096a42828590c81b1548e, type: 3}
   minionGO: {fileID: 7660342951240364649, guid: 3efd96be7f1096a42828590c81b1548e, type: 3}
+  isShowingToUI: 1

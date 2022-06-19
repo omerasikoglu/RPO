@@ -1,10 +1,10 @@
 using UnityEngine;
+using NaughtyAttributes;
 
 public enum Team { red, green, blue };
 
-public enum Road : int
-{
-    road1 = 1, 
+public enum Road : int {
+    road1 = 1,
     road2 = 2,
 };
 
@@ -13,12 +13,14 @@ public class MinionOptionsSO : ScriptableObject {
 
     public Team team;
 
-    [SerializeField] private float movementSpeed = 5f, scale = 1, damageAmount = 2f, maxHealth = 2, maxMana = 2f;
+    [SerializeField] private float movementSpeed = 5f, damageAmount = 2f, maxHealth = 2, maxMana = 2f;
     public float DefaultMovementSpeed => movementSpeed;
     public float DefaultHealth => maxHealth;
     public float DefaultMana => maxMana;
     public float DefaultDamage => damageAmount;
-    public float DefaultScale => scale;
+
+    [SerializeField] private bool isScaleRandomnessIsActive; public bool IsScaleRandomnessActive => isScaleRandomnessIsActive;
+    [SerializeField, EnableIf(nameof(IsScaleRandomnessActive))] private Scale scale; public Scale DefaultScale => scale;
 
 
     #region Spell variables

@@ -59,8 +59,10 @@ public class MinionContainerUI : MonoBehaviour {
                 minionTransform.GetComponent<Image>().sprite = minionType.Sprite;
                 minionTypeTransformDic[minionType] = minionTransform;
 
-                PointerEvents pointerEvents = minionTransform.GetComponent<PointerEvents>();
-                //pointerEvents.OnPointerClick += somefunc;
+                    minionTransform.GetComponent<PointerEvents>().OnPointerEnterEvent = (sender, e) =>
+                    {
+                        MinionFactory.Instance.PullUnit(minionType.MinionType);
+                    };
 
 
 

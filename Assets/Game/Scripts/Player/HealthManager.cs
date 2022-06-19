@@ -19,7 +19,7 @@ public class HealthManager : MonoBehaviour, IDamageable {
         currentHealth = maxHealth;
     }
 
-    public void TakeDamage(DamageQuality damageQuality)
+    public void TakeDamage(DamageQuality damageQuality, float enemyScaleMultiplier)
     {
         currentHealth -= 1;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
@@ -30,6 +30,11 @@ public class HealthManager : MonoBehaviour, IDamageable {
             OnYouDied?.Invoke();
             Destroy(gameObject);
         }
+    }
+
+    public float GetCurrentScaleMultiplier()
+    {
+        throw new NotImplementedException();
     }
 
     public Team GetTeam()

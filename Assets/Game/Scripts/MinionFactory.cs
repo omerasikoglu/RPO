@@ -8,6 +8,7 @@ using UnityEngine;
 
 public class MinionFactory : Singleton<MinionFactory> {
 
+ 
 
     [SerializeField] private List<Transform> spawnPositionList;
     [SerializeField] private MinionTypeListSO minionTypeList;
@@ -52,6 +53,11 @@ public class MinionFactory : Singleton<MinionFactory> {
     #region Test
     [Button]
     private void SpawnRock() {
+        //Rock.Create(GetMateSpawnPos((Road)1));
+        rockPool.PullGameObject(currentSpawnPosition);
+    }
+    [Button]
+    private void SpawnBigRock() {
         //Rock.Create(GetMateSpawnPos((Road)1));
         rockPool.PullGameObject(currentSpawnPosition);
     }

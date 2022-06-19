@@ -34,8 +34,8 @@ public class Scissors : Minion {
         }
 
         void CalculateCombat(DamageQuality youHurt, DamageQuality enemyHurt) {
-            damageable.TakeDamage(enemyHurt);
-            TakeDamage(youHurt);
+            damageable.TakeDamage(enemyHurt, GetCurrentScaleMultiplier());
+            TakeDamage(youHurt, damageable.GetCurrentScaleMultiplier());
         }
     }
 }

@@ -23,61 +23,85 @@ public abstract class Minion : MonoBehaviour, IDamageable, IPoolable<Minion> {
 
     [SerializeField] protected MinionOptionsSO options;
 
-    [ShowNonSerializedField] private float currentHealth, currentMana, currentScale, currentMovementSpeed;
+    [ShowNonSerializedField] private float currentHealth, currentMana, currentDamage, currentMovementSpeed;
     [ShowNonSerializedField] private bool isImmune = false;
     [ShowNonSerializedField] protected UnitType minionType;
 
     protected virtual void OnEnable() {
         Init();
     }
+
     public void Init() {
         SetImmunity(false);
         GetDirection();
+
+
+
+        SetScale();
         SetHealth(options.DefaultHealth);
         SetMana(options.DefaultMana);
+        SetDamage(options.DefaultDamage);
         SetMovementSpeed(options.DefaultMovementSpeed);
-        SetScale();
     }
+
+
 
     #region First Create
-    protected virtual void SetMinionType(UnitType minionType) {
-        this.minionType = minionType;
-    }
-    private Scale currentMinionScale;
     protected void SetScale() {
 
-        currentMinionScale = UnityEngine.Random.value switch
-        {
-            < .01f => Scale.small,
-            > .99f => Scale.big,
-            _ => Scale.normal
-        };
+        if (options.IsScaleRandomnessActive) {
+            currentScale = UnityEngine.Random.value switch
+            {
+                < .01f => Scale.small,
+                > .99f => Scale.big,
+                _ => Scale.normal
+            };
+        }
 
-        SetStats(currentMinionScale);
+        else {
+            currentScale = options.DefaultScale;
+        }
 
-        void SetStats(Scale scale) {
 
-            switch (scale) {
-                case Scale.small: SetChangeAmounts(.5f, .5f, .5f); break;
-                case Scale.normal: SetChangeAmounts(1f, 1f, 1f); break;
-                case Scale.big: SetChangeAmounts(2f, 2f, 1.5f); break;
-                default: SetChangeAmounts(1f, 1f, 1f); break;
+        SetStats(currentScale); void SetStats(Scale currentScale) {
+
+            switch (currentScale) {
+                case Scale.small: SetChangeAmounts(.5f, .5f, .5f, .5f); break;
+                case Scale.normal: SetChangeAmounts(1f, 1f, 1f, 1f); break;
+                case Scale.big: SetChangeAmounts(1.5f, 2f, 2f, 2f); break;
+                default: SetChangeAmounts(1f, 1f, 1f, 1f); break;
             }
 
-            void SetChangeAmounts(float healthAmount, float manaAmount, float scaleAmount) {
-                currentHealth *= healthAmount; currentMana *= manaAmount; currentScale = scaleAmount;
+            void SetChangeAmounts(float scaleAmount, float manaAmount, float damageAmount, float healthAmount) {
+                currentHealth *= healthAmount;
+                currentMana *= manaAmount;
+                currentDamage *= damageAmount;
+                currentScale = (Scale)scaleAmount;
             }
         }
 
+        float GetScaleAmount(Scale scale) {
+            return scale switch
+            {
+                Scale.small => 0.5f,
+                Scale.normal => 1f,
+                Scale.big => 1.5f,
+                _ => 1f,
+            };
+        }
         UpdateScale();
 
         void UpdateScale() {
-            if (currentScale.Equals(1)) return;
+            if (currentScale.Equals(Scale.normal)) return;
 
-            transform.DOScale(currentScale, 1f);
+            transform.DOScale((float)currentScale, 1f);
         }
 
     }
+    protected virtual void SetMinionType(UnitType minionType) {
+        this.minionType = minionType;
+    }
+    private Scale currentScale;
     public Vector3 GetDirection() {
 
         return Vector3.forward;
@@ -91,6 +115,9 @@ public abstract class Minion : MonoBehaviour, IDamageable, IPoolable<Minion> {
     public void SetHealth(float health) {
         currentHealth = health;
     }
+    private void SetDamage(float damage) {
+        currentDamage = damage;
+    }
     public void GainAbilty(SpellTypeEnum minionAbility) {
         switch (minionAbility) {
             case SpellTypeEnum.Disguise: break;
@@ -102,22 +129,40 @@ public abstract class Minion : MonoBehaviour, IDamageable, IPoolable<Minion> {
     }
 
     #endregion
+    private void OnDisable() {
 
+        SetScaleToDefault(); void SetScaleToDefault() {
+            currentScale = Scale.normal;
+            transform.localScale = Vector3.one;
+        }
+        ReturnToPool();
+    }
     private void Update() {
         transform.Translate(currentMovementSpeed * GetDirection() * Time.deltaTime);
     }
 
-    private void OnDisable() {
-        ReturnToPool();
-    }
+
 
 
     #region Implements
-    public void TakeDamage(DamageQuality damageQuality) {
+    public void TakeDamage(DamageQuality damageQuality, float enemyScaleMultiplier = 1) {
 
         if (isImmune) return;
 
-        float damageAmount = GetDamage(damageQuality);
+        float damageAmount = GetDamage(damageQuality) * enemyScaleMultiplier;
+
+        float GetDamage(DamageQuality damageQuality) {
+            return damageQuality switch
+            {
+                (DamageQuality)1 => 1,
+                (DamageQuality)2 => currentDamage * .5f,
+                (DamageQuality)3 => currentDamage,
+                (DamageQuality)4 => currentDamage * 2,
+                (DamageQuality)5 => currentDamage * 10,
+                _ => options.DefaultDamage
+            };
+        }
+
 
         SetImmunity(true);
 
@@ -152,18 +197,16 @@ public abstract class Minion : MonoBehaviour, IDamageable, IPoolable<Minion> {
 
     #region Collision
 
-
-    protected float GetDamage(DamageQuality damageQuality) {
-        return damageQuality switch
+    public float GetCurrentScaleMultiplier() {
+        return currentScale switch
         {
-            (DamageQuality)1 => 1,
-            (DamageQuality)2 => options.DefaultDamage * .5f,
-            (DamageQuality)3 => options.DefaultDamage,
-            (DamageQuality)4 => options.DefaultDamage * 2,
-            (DamageQuality)5 => options.DefaultDamage * 10,
-            _ => options.DefaultDamage
+            Scale.small => .5f,
+            Scale.normal => 1f,
+            Scale.big => 2f,
+            _ => 1f,
         };
     }
+
     private void SetImmunity(bool isImmune) {
         this.isImmune = isImmune;
     }
