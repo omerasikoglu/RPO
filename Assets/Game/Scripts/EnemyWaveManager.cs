@@ -4,15 +4,21 @@ using UnityEngine;
 
 public class EnemyWaveManager : MonoBehaviour
 {
-    [SerializeField] private float spawnTimer;
+    [SerializeField] private float spawnTimerMax;
+    private float currentSpawnTimer;
 
+    public void Awake()
+    {
+        currentSpawnTimer = spawnTimerMax;
+    }
     public void Update()
     {
 
-        spawnTimer -= Time.deltaTime;
-        if (spawnTimer <= 0f)
+        currentSpawnTimer -= Time.deltaTime;
+        if (currentSpawnTimer <= 0f)
         {
             SpawnMinion();
+            currentSpawnTimer += spawnTimerMax;
         }
 
     }

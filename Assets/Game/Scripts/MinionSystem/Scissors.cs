@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class Scissors : Minion {
 
-    public static Scissors Create(Vector3 spawnPos, Team team) {
+    //public static Scissors Create(Vector3 spawnPos, Team team) {
 
-        //Transform scissorsPrefab = Resources.Load<MinionTypeListSO>(typeof(MinionTypeListSO).Name).GetUnit(UnitType.scissors);
-        Transform scissorsPrefab = MinionFactory.Instance.PullUnit(UnitType.scissors, team).transform;
-        Transform minionTransform = Instantiate(scissorsPrefab, spawnPos, Quaternion.identity);
+    //    //Transform scissorsPrefab = Resources.Load<MinionTypeListSO>(typeof(MinionTypeListSO).Name).GetUnit(UnitType.scissors);
+    //    Transform scissorsPrefab = MinionFactory.Instance.PullUnit(UnitType.scissors, team).transform;
+    //    Transform minionTransform = Instantiate(scissorsPrefab, spawnPos, Quaternion.identity);
 
-        Scissors scissors = minionTransform.GetComponent<Scissors>();
-        scissors.Init();
+    //    Scissors scissors = minionTransform.GetComponent<Scissors>();
+    //    scissors.Init();
 
-        return scissors;
-    }
+    //    return scissors;
+    //}
     private void Awake() {
         SetUnitType(UnitType.scissors);
     }
@@ -34,8 +34,9 @@ public class Scissors : Minion {
         }
 
         void CalculateCombat(DamageQuality youHurt, DamageQuality enemyHurt) {
+            float scaleMultipliyer = damageable.GetCurrentScaleMultiplier();
             damageable.TakeDamage(enemyHurt, GetCurrentScaleMultiplier());
-            TakeDamage(youHurt, damageable.GetCurrentScaleMultiplier());
+            TakeDamage(youHurt, scaleMultipliyer);
         }
     }
 }

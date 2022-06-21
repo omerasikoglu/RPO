@@ -22,6 +22,7 @@ public abstract class Minion : MonoBehaviour, IDamageable, IPoolable<Minion> {
     public event Action OnDamageTaken, OnDead;
 
     [SerializeField] protected MinionOptionsSO options;
+    private Team team;
 
     [ShowNonSerializedField] private Scale currentScale;
     [ShowNonSerializedField] private float currentHealth, currentMana, currentDamage, currentMovementSpeed;
@@ -37,6 +38,7 @@ public abstract class Minion : MonoBehaviour, IDamageable, IPoolable<Minion> {
         SetImmunity(false);
         GetDirection();
         SetMovementSpeed(options.DefaultMovementSpeed);
+        SetTeam(options.team);
 
         //Change via scale value
         SetHealth(options.DefaultHealth);
@@ -134,9 +136,6 @@ public abstract class Minion : MonoBehaviour, IDamageable, IPoolable<Minion> {
         transform.Translate(currentMovementSpeed * GetDirection() * Time.deltaTime);
     }
 
-
-
-
     #region Implements
     public float GetCurrentScaleMultiplier() {
         return currentScale switch
@@ -152,15 +151,15 @@ public abstract class Minion : MonoBehaviour, IDamageable, IPoolable<Minion> {
         if (isImmune) return;
         SetImmunity(true);
 
-        float damageAmount =GetDamage(damageQuality) * enemyScaleMultiplier;
+        float damageAmount = GetDamage(damageQuality) * enemyScaleMultiplier;
 
         float GetDamage(DamageQuality damageQuality) {
             return damageQuality switch
             {
                 DamageQuality.poor => 1f,
                 DamageQuality.normal => 2f,
-                (DamageQuality)4 => 4f,
-                (DamageQuality)5 => 10,
+                DamageQuality.critical => 4f,
+                (DamageQuality)5 => 8f,
                 _ => 2f,
             };
         }
@@ -185,7 +184,8 @@ public abstract class Minion : MonoBehaviour, IDamageable, IPoolable<Minion> {
     }
 
     public UnitType GetUnitType() => unitType;
-    public Team GetTeam() => options.team;
+    public Team GetTeam() => team;
+    public void SetTeam(Team team) { this.team = team; }
     public void Initialize(Action<Minion> returnAction) {
         OnReturnedToPool = returnAction;
     }

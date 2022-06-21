@@ -5,17 +5,17 @@ using UnityEngine;
 
 public class Rock : Minion {
 
-    public static Rock Create(Vector3 spawnPos, Team team) {
+    //public static Rock Create(Vector3 spawnPos, Team team) {
 
-        Transform rockPrefab = Resources.Load<MinionTypeListSO>(typeof(MinionTypeListSO).Name).GetUnit(UnitType.rock).transform;
-        //Transform rockPrefab = MinionFactory.Instance.PullUnit(UnitType.rock, team).transform;
-        Transform minionTransform = Instantiate(rockPrefab, spawnPos, Quaternion.identity);
+    //    Transform rockPrefab = Resources.Load<MinionTypeListSO>(typeof(MinionTypeListSO).Name).GetUnit(UnitType.rock).transform;
+    //    //Transform rockPrefab = MinionFactory.Instance.PullUnit(UnitType.rock, team).transform;
+    //    Transform minionTransform = Instantiate(rockPrefab, spawnPos, Quaternion.identity);
 
-        Rock rock = minionTransform.GetComponent<Rock>();
-        rock.Init();
+    //    Rock rock = minionTransform.GetComponent<Rock>();
+    //    rock.Init();
 
-        return rock;
-    }
+    //    return rock;
+    //}
 
     private void Awake() {
         SetUnitType(UnitType.rock);
@@ -37,8 +37,9 @@ public class Rock : Minion {
         }
 
         void CalculateCombat(DamageQuality youHurt, DamageQuality enemyHurt) {
+            float scaleMultiplier = damageable.GetCurrentScaleMultiplier();
             damageable.TakeDamage(enemyHurt, GetCurrentScaleMultiplier());
-            TakeDamage(youHurt, damageable.GetCurrentScaleMultiplier());
+            TakeDamage(youHurt, scaleMultiplier);
         }
     }
 }

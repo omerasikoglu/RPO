@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Octopus : Minion {
-    public static Octopus Create(Vector3 spawnPos, Team team) {
+    //public static Octopus Create(Vector3 spawnPos, Team team) {
 
-        //Transform octopusPrefab = Resources.Load<MinionTypeListSO>(typeof(MinionTypeListSO).Name).GetUnit(UnitType.octopus);
-        Transform octopusPrefab = MinionFactory.Instance.PullUnit(UnitType.octopus, team).transform;
-        Transform minionTransform = Instantiate(octopusPrefab, spawnPos, Quaternion.identity);
+    //    //Transform octopusPrefab = Resources.Load<MinionTypeListSO>(typeof(MinionTypeListSO).Name).GetUnit(UnitType.octopus);
+    //    Transform octopusPrefab = MinionFactory.Instance.PullUnit(UnitType.octopus, team).transform;
+    //    Transform minionTransform = Instantiate(octopusPrefab, spawnPos, Quaternion.identity);
 
-        Octopus octopus = minionTransform.GetComponent<Octopus>();
-        octopus.Init();
+    //    Octopus octopus = minionTransform.GetComponent<Octopus>();
+    //    octopus.Init();
 
-        return octopus;
-    }
+    //    return octopus;
+    //}
     private void Awake() {
         SetUnitType(UnitType.octopus);
     }
@@ -33,8 +33,9 @@ public class Octopus : Minion {
         }
 
         void CalculateCombat(DamageQuality youHurt, DamageQuality enemyHurt) {
+            float scaleMultipliyer = damageable.GetCurrentScaleMultiplier();
             damageable.TakeDamage(enemyHurt, GetCurrentScaleMultiplier());
-            TakeDamage(youHurt, damageable.GetCurrentScaleMultiplier());
+            TakeDamage(youHurt, scaleMultipliyer);
         }
     }
 

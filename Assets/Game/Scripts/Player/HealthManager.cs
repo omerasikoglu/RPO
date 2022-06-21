@@ -10,8 +10,9 @@ public class HealthManager : MonoBehaviour, IDamageable {
     public event Action OnYouDied;
 
     [SerializeField] private int maxHealth = 5;
+    [SerializeField] private Team team;
+    [ShowNonSerializedField] private float currentHealth;
 
-    private float currentHealth;
     private bool isTooltipTimerActive = false;
 
 
@@ -19,8 +20,8 @@ public class HealthManager : MonoBehaviour, IDamageable {
         currentHealth = maxHealth;
     }
 
-    public void TakeDamage(DamageQuality damageQuality, float enemyScaleMultiplier)
-    {
+    public void TakeDamage(DamageQuality damageQuality, float enemyScaleMultiplier) {
+        Debug.Log("general hasar aldý");
         currentHealth -= 1;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
 
@@ -32,18 +33,16 @@ public class HealthManager : MonoBehaviour, IDamageable {
         }
     }
 
-    public float GetCurrentScaleMultiplier()
-    {
+    public float GetCurrentScaleMultiplier() {
         return 1f; //TODO: MAKE IT SOLID
     }
 
     public Team GetTeam()
     {
-        throw new NotImplementedException();
+        return team;
     }
 
-    public UnitType GetUnitType()
-    {
+    public UnitType GetUnitType() {
         return UnitType.general;
     }
 }

@@ -9,9 +9,7 @@ using UnityEngine;
 
 public class MinionFactory : Singleton<MinionFactory> {
 
-
-
-    [SerializeField] private List<Transform> spawnPositionList;
+    [SerializeField] private List<Transform> greenSpawnPointList, redSpawnPointList;
     [SerializeField] private MinionTypeListSO minionTypeList;
     [SerializeField] private Transform poolRoot;
 
@@ -36,25 +34,34 @@ public class MinionFactory : Singleton<MinionFactory> {
 
     private Vector3 GetMateSpawnPos(Road spawnPoint) => spawnPoint switch
     {
-        (Road)1 => spawnPositionList[0]?.position ?? new Vector3(-2f, 0f, 2f),
-        (Road)2 => spawnPositionList[1]?.position ?? new Vector3(2f, 0f, 2f),
+        (Road)1 => greenSpawnPointList[0]?.position ?? new Vector3(-2f, 0f, 2f),
+        (Road)2 => greenSpawnPointList[1]?.position ?? new Vector3(2f, 0f, 2f),
         _ => Vector3.zero,
     };
 
-    
+    private void SetSpawnPoint(Team team) {
+        switch (team) {
+            case Team.red:
+            currentSpawnPosition = redSpawnPointList[0].position; break;
+            case Team.green:
+            currentSpawnPosition = greenSpawnPointList[0].position; break;
+            default:
+            throw new ArgumentOutOfRangeException(nameof(team), team, null);
+        }
+    }
 
-    public GameObject PullUnit(UnitType unitType, Team team)
-    {
+    public GameObject PullUnit(UnitType unitType, Team team) {
         Vector3 rotation = GetRotation(team);
+        SetSpawnPoint(team);
 
         Vector3 GetRotation(Team team) => team switch
         {
-            Team.red => Vector3.back,
-            Team.green => Vector3.forward,
-            _ => Vector3.forward,
+            Team.red => new Vector3(0f,180f,0f),
+            Team.green => Vector3.zero,
+            _ => Vector3.zero,
         };
 
-        return unitType switch
+        GameObject go = unitType switch
         {
             UnitType.rock => parentPool[0].PullGameObject(currentSpawnPosition),
             UnitType.paper => parentPool[1].PullGameObject(currentSpawnPosition),
@@ -62,6 +69,10 @@ public class MinionFactory : Singleton<MinionFactory> {
             UnitType.octopus => parentPool[3].PullGameObject(currentSpawnPosition),
             _ => throw new NotImplementedException(),
         };
+
+        go.GetComponent<Minion>().SetTeam(team);
+        go.transform.rotation = Quaternion.Euler(rotation);
+        return go;
     }
 
     #region Test

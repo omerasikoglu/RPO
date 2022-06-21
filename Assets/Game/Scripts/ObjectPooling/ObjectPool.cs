@@ -70,7 +70,13 @@ public class ObjectPool<T> where T : MonoBehaviour, IPoolable<T> {
         go.transform.position = position;
         return go;
     }
-
+    //public GameObject PullGameObject(Vector3 position, Vector3 rotation, Team team) {
+    //    GameObject go = Pull().gameObject;
+    //    go.transform.position = position;
+    //    go.transform.Rotate(rotation);
+    //    go.GetComponent<Minion>().SetTeam(team);
+    //    return go;
+    //}
     public GameObject PullGameObject(Vector3 position, Quaternion rotation) {
         GameObject go = Pull().gameObject;
         go.transform.SetPositionAndRotation(position, rotation);

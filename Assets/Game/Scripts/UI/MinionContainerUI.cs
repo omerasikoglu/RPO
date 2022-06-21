@@ -69,10 +69,4 @@ public class MinionContainerUI : MonoBehaviour {
             }
         }
     }
-    public void somefunc(object sender, System.EventArgs args) {
-        Debug.Log("onpointerclick");
-
-    }
-
-
 }
