@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d47da0434a899ae4a91216aab2911ead, type: 3}
   m_Name: PaperOptionsDefault
   m_EditorClassIdentifier: 
-  team: 0
-  movementSpeed: 2
+  team: 1
+  movementSpeed: 1
   damageAmount: 2
   maxHealth: 2
   maxMana: 2

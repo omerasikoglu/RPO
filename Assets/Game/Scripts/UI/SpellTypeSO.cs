@@ -4,10 +4,11 @@ using UnityEngine;
 [Serializable]
 public enum SpellTypeEnum {
     Disguise = 1, // looks like another minion type
-    Jumper = 2, // JumpOtherRoad
+    Jumper = 2, // JumpOtherRoads
     MoleWalker = 3, //pass 1st enemy
     Runner = 4, // x3 speed
     Ghost = 5, // reveal herself when close-up to enemy
+    RiseOfTheOctopuses = 6,       //sonraki 10 sn boyunca spawnlanan tüm minyonlarýn octopus olacak
 };
 
 [CreateAssetMenu(menuName = "ScriptableObjects/SpellType")]

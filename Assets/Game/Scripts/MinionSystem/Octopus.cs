@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Octopus : Minion {
-    public static Octopus Create(Vector3 spawnPos) {
+    public static Octopus Create(Vector3 spawnPos, Team team) {
 
         //Transform octopusPrefab = Resources.Load<MinionTypeListSO>(typeof(MinionTypeListSO).Name).GetUnit(UnitType.octopus);
-        Transform octopusPrefab = MinionFactory.Instance.PullUnit(UnitType.octopus).transform;
+        Transform octopusPrefab = MinionFactory.Instance.PullUnit(UnitType.octopus, team).transform;
         Transform minionTransform = Instantiate(octopusPrefab, spawnPos, Quaternion.identity);
 
         Octopus octopus = minionTransform.GetComponent<Octopus>();

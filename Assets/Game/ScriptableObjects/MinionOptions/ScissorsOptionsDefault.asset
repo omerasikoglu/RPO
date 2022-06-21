@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d47da0434a899ae4a91216aab2911ead, type: 3}
-  m_Name: RockOptionsStopping
+  m_Name: ScissorsOptionsDefault
   m_EditorClassIdentifier: 
   team: 1
-  movementSpeed: 0
+  movementSpeed: 1
   damageAmount: 2
   maxHealth: 2
   maxMana: 2
-  isScaleRandomnessIsActive: 0
+  isScaleRandomnessIsActive: 1
   scale: 2
   speedIncreaseAmount: 5

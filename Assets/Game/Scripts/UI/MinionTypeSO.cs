@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+//TODO: Maybe subtract general to this list
 public enum UnitType {
     rock = 1,
     paper = 2,

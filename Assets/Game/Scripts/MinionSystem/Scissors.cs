@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class Scissors : Minion {
 
-    public static Scissors Create(Vector3 spawnPos) {
+    public static Scissors Create(Vector3 spawnPos, Team team) {
 
         //Transform scissorsPrefab = Resources.Load<MinionTypeListSO>(typeof(MinionTypeListSO).Name).GetUnit(UnitType.scissors);
-        Transform scissorsPrefab = MinionFactory.Instance.PullUnit(UnitType.scissors).transform;
+        Transform scissorsPrefab = MinionFactory.Instance.PullUnit(UnitType.scissors, team).transform;
         Transform minionTransform = Instantiate(scissorsPrefab, spawnPos, Quaternion.identity);
 
         Scissors scissors = minionTransform.GetComponent<Scissors>();

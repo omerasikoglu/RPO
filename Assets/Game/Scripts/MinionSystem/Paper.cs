@@ -4,10 +4,10 @@ using NaughtyAttributes;
 using UnityEngine;
 
 public class Paper : Minion {
-    public static Paper Create(Vector3 spawnPos) {
+    public static Paper Create(Vector3 spawnPos, Team team) {
 
         //Transform paperPrefab = Resources.Load<MinionTypeListSO>(typeof(MinionTypeListSO).Name).GetUnit(UnitType.paper);
-        Transform paperPrefab = MinionFactory.Instance.PullUnit(UnitType.paper).transform;
+        Transform paperPrefab = MinionFactory.Instance.PullUnit(UnitType.paper, team).transform;
         Transform minionTransform = Instantiate(paperPrefab, spawnPos, Quaternion.identity);
 
         Paper paper = minionTransform.GetComponent<Paper>();

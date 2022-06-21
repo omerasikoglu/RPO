@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &5250211583978277679
+--- !u!1001 &4715770680641838544
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 8737048159392266478, guid: 0d1a5239b99fe4d4f86011639dde6477, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 3f9609787733e474384b6bba677cdf16, type: 2}
+      objectReference: {fileID: 2100000, guid: 78a78e63df0e0c24995c8a42bf8b2cbd, type: 2}
     - target: {fileID: 8737048160698369176, guid: 0d1a5239b99fe4d4f86011639dde6477, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -57,25 +57,25 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8737048160698369183, guid: 0d1a5239b99fe4d4f86011639dde6477, type: 3}
       propertyPath: m_Name
-      value: pfPaper
+      value: pfScissors
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0d1a5239b99fe4d4f86011639dde6477, type: 3}
---- !u!1 &3574807643333758896 stripped
+--- !u!1 &4049285202448734543 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8737048160698369183, guid: 0d1a5239b99fe4d4f86011639dde6477, type: 3}
-  m_PrefabInstance: {fileID: 5250211583978277679}
+  m_PrefabInstance: {fileID: 4715770680641838544}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &5172907952923680846
+--- !u!114 &4620790597800746634
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3574807643333758896}
+  m_GameObject: {fileID: 4049285202448734543}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 10b3a4d4dd8746549833fb972dc9e057, type: 3}
+  m_Script: {fileID: 11500000, guid: f316592efb60fe645aaf44a212b46746, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  options: {fileID: 11400000, guid: e8f4906538bccfd4ca3cf9d5ba480196, type: 2}
+  options: {fileID: 11400000, guid: ce8b5cff3afeb3243befff983a10db22, type: 2}

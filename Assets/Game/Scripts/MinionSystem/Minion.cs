@@ -27,6 +27,7 @@ public abstract class Minion : MonoBehaviour, IDamageable, IPoolable<Minion> {
     [ShowNonSerializedField] private float currentHealth, currentMana, currentDamage, currentMovementSpeed;
     [ShowNonSerializedField] private bool isImmune = false;
     [ShowNonSerializedField] protected UnitType minionType;
+    [ShowNonSerializedField] private Team team = Team.green;
 
     protected virtual void OnEnable() {
         Init();
@@ -122,7 +123,7 @@ public abstract class Minion : MonoBehaviour, IDamageable, IPoolable<Minion> {
             case SpellTypeEnum.Disguise: break;
             case SpellTypeEnum.Jumper: break;
             case SpellTypeEnum.MoleWalker: break;
-            case SpellTypeEnum.Runner: currentMovementSpeed += options.SpeedIncreaseAmount; break;
+            case SpellTypeEnum.Runner: /*currentMovementSpeed += options.SpeedIncreaseAmount;*/ break;
             case SpellTypeEnum.Ghost: break;
         }
     }
@@ -187,7 +188,12 @@ public abstract class Minion : MonoBehaviour, IDamageable, IPoolable<Minion> {
     }
 
     public UnitType GetMinionType() => minionType;
-    public Team GetTeam() => options.team;
+    public Team GetTeam() => team;
+
+    public void SetTeam(Team team)
+    {
+        this.team = team;
+    }
     public void Initialize(Action<Minion> returnAction) {
         OnReturnedToPool = returnAction;
     }
@@ -200,18 +206,4 @@ public abstract class Minion : MonoBehaviour, IDamageable, IPoolable<Minion> {
     }
 
     #endregion
-
-    #region Collision
-
-
-
-
-
-
-
-
-
-    #endregion
-
-
 }

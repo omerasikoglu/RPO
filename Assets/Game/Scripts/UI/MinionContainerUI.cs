@@ -61,7 +61,7 @@ public class MinionContainerUI : MonoBehaviour {
 
                     minionTransform.GetComponent<PointerEvents>().OnPointerEnterEvent = (sender, e) =>
                     {
-                        MinionFactory.Instance.PullUnit(minionType.MinionType);
+                        MinionFactory.Instance.PullUnit(minionType.MinionType, Team.green);
                     };
 
 

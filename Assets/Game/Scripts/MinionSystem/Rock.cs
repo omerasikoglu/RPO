@@ -5,10 +5,10 @@ using UnityEngine;
 
 public class Rock : Minion {
 
-    public static Rock Create(Vector3 spawnPos) {
+    public static Rock Create(Vector3 spawnPos, Team team) {
 
         Transform rockPrefab = Resources.Load<MinionTypeListSO>(typeof(MinionTypeListSO).Name).GetUnit(UnitType.rock).transform;
-        //Transform rockPrefab = MinionFactory.Instance.PullUnit(UnitType.rock).transform;
+        //Transform rockPrefab = MinionFactory.Instance.PullUnit(UnitType.rock, team).transform;
         Transform minionTransform = Instantiate(rockPrefab, spawnPos, Quaternion.identity);
 
         Rock rock = minionTransform.GetComponent<Rock>();

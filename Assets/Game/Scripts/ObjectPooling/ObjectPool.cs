@@ -65,9 +65,10 @@ public class ObjectPool<T> where T : MonoBehaviour, IPoolable<T> {
         return Pull().gameObject;
     }
 
-    public GameObject PullGameObject(Vector3 position) {
+    public GameObject PullGameObject(Vector3 position, Vector3 rotation) {
         GameObject go = Pull().gameObject;
         go.transform.position = position;
+        go.transform.Rotate(rotation);
         return go;
     }
 
