@@ -26,8 +26,7 @@ public abstract class Minion : MonoBehaviour, IDamageable, IPoolable<Minion> {
     [ShowNonSerializedField] private Scale currentScale;
     [ShowNonSerializedField] private float currentHealth, currentMana, currentDamage, currentMovementSpeed;
     [ShowNonSerializedField] private bool isImmune = false;
-    [ShowNonSerializedField] protected UnitType minionType;
-    [ShowNonSerializedField] private Team team = Team.green;
+    [ShowNonSerializedField] protected UnitType unitType;
 
     protected virtual void OnEnable() {
         Init();
@@ -106,7 +105,7 @@ public abstract class Minion : MonoBehaviour, IDamageable, IPoolable<Minion> {
     private void SetMovementSpeed(float speed) {
         currentMovementSpeed = speed;
     }
-    private void SetImmunity(bool isImmune) {
+    protected void SetImmunity(bool isImmune) {
         this.isImmune = isImmune;
     }
     private Vector3 GetDirection() {
@@ -114,8 +113,8 @@ public abstract class Minion : MonoBehaviour, IDamageable, IPoolable<Minion> {
         return Vector3.forward;
     }
 
-    protected virtual void SetMinionType(UnitType minionType) {
-        this.minionType = minionType;
+    protected virtual void SetUnitType(UnitType unitType) {
+        this.unitType = unitType;
     }
 
     public void GainAbilty(SpellTypeEnum minionAbility) {
@@ -148,29 +147,27 @@ public abstract class Minion : MonoBehaviour, IDamageable, IPoolable<Minion> {
             _ => 1f,
         };
     }
-    public void TakeDamage(DamageQuality damageQuality, float enemyScaleMultiplier = 1) {
+    public void TakeDamage(DamageQuality damageQuality, float enemyScaleMultiplier) {
 
         if (isImmune) return;
+        SetImmunity(true);
 
-        float damageAmount = GetDamage(damageQuality) * enemyScaleMultiplier;
+        float damageAmount =GetDamage(damageQuality) * enemyScaleMultiplier;
 
         float GetDamage(DamageQuality damageQuality) {
             return damageQuality switch
             {
-                (DamageQuality)1 => 1f,
-                DamageQuality.poor => 0.5f * currentDamage,
-                DamageQuality.normal => 1 * currentDamage,
-                (DamageQuality)4 => 2 * currentDamage,
-                (DamageQuality)5 => 10 * currentDamage,
-                _ => 1f,
+                DamageQuality.poor => 1f,
+                DamageQuality.normal => 2f,
+                (DamageQuality)4 => 4f,
+                (DamageQuality)5 => 10,
+                _ => 2f,
             };
         }
 
-
-        SetImmunity(true);
-
+        Debug.Log($"{GetUnitType()}'ýn caný {damageAmount} kadar düþtü | {damageQuality} {enemyScaleMultiplier}");
         currentHealth -= damageAmount;
-        currentHealth = Mathf.Clamp(currentHealth, 0, options.DefaultMana);
+        currentHealth = Mathf.Clamp(currentHealth, 0, options.MaxHealth);
         OnDamageTaken?.Invoke();
 
         if (currentHealth <= 0f) Dead(); void Dead() {
@@ -187,13 +184,8 @@ public abstract class Minion : MonoBehaviour, IDamageable, IPoolable<Minion> {
 
     }
 
-    public UnitType GetMinionType() => minionType;
-    public Team GetTeam() => team;
-
-    public void SetTeam(Team team)
-    {
-        this.team = team;
-    }
+    public UnitType GetUnitType() => unitType;
+    public Team GetTeam() => options.team;
     public void Initialize(Action<Minion> returnAction) {
         OnReturnedToPool = returnAction;
     }

@@ -16,7 +16,7 @@ public class Scissors : Minion {
         return scissors;
     }
     private void Awake() {
-        SetMinionType(UnitType.scissors);
+        SetUnitType(UnitType.scissors);
     }
     private void OnTriggerEnter(Collider collision) {
 
@@ -25,7 +25,7 @@ public class Scissors : Minion {
         if (damageable == null) return;
         if (GetTeam().Equals(damageable.GetTeam())) return;
 
-        switch (damageable.GetMinionType()) { // ? could be get calculated values before the combat from some method
+        switch (damageable.GetUnitType()) { // ? could be get calculated values before the combat from some method
             case (UnitType)1: CalculateCombat(DamageQuality.critical, DamageQuality.poor); break;
             case (UnitType)2: CalculateCombat(DamageQuality.poor, DamageQuality.critical); break;
             case (UnitType)3: CalculateCombat(DamageQuality.normal, DamageQuality.normal); break;

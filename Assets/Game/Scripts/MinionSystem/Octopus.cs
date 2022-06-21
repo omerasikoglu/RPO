@@ -15,7 +15,7 @@ public class Octopus : Minion {
         return octopus;
     }
     private void Awake() {
-        SetMinionType(UnitType.octopus);
+        SetUnitType(UnitType.octopus);
     }
     private void OnTriggerEnter(Collider collision) {
 
@@ -24,7 +24,7 @@ public class Octopus : Minion {
         if (damageable == null) return;
         if (GetTeam().Equals(damageable.GetTeam())) return;
 
-        switch (damageable.GetMinionType()) { // ? could be get calculated values before the combat from some method
+        switch (damageable.GetUnitType()) { // ? could be get calculated values before the combat from some method
             case (UnitType)1: CalculateCombat(DamageQuality.poor, DamageQuality.critical); break;
             case (UnitType)2: CalculateCombat(DamageQuality.poor, DamageQuality.critical); break;
             case (UnitType)3: CalculateCombat(DamageQuality.poor, DamageQuality.critical); break;

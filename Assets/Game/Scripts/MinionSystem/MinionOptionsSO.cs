@@ -12,13 +12,20 @@ public enum Road : int {
 [CreateAssetMenu(menuName = "ScriptableObjects/MinionOptions")]
 public class MinionOptionsSO : ScriptableObject {
 
-    //public Team team;
+    public Team team;
 
-    [SerializeField] private float movementSpeed = 5f, damageAmount = 2f, maxHealth = 2, maxMana = 2f;
+    [SerializeField]
+    private float
+        movementSpeed = 5f,
+        defaultDamage = 2f, defaultHealth = 2, defaultMana = 2f,
+        maxDamage = 4f, maxHealth = 4f, maxMana = 4f;
     public float DefaultMovementSpeed => movementSpeed;
-    public float DefaultHealth => maxHealth;
-    public float DefaultMana => maxMana;
-    public float DefaultDamage => damageAmount;
+    public float DefaultHealth => defaultHealth;
+    public float DefaultMana => defaultMana;
+    public float DefaultDamage => defaultDamage;
+    public float MaxHealth => maxHealth;
+    public float MaxMana => maxMana;
+    public float MaxDamage => maxDamage;
 
     [SerializeField] private bool isScaleRandomnessIsActive; public bool IsScaleRandomnessActive => isScaleRandomnessIsActive;
     [SerializeField, DisableIf(nameof(IsScaleRandomnessActive))] private Scale scale; public Scale DefaultScale => scale;

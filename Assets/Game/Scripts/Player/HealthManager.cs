@@ -34,7 +34,7 @@ public class HealthManager : MonoBehaviour, IDamageable {
 
     public float GetCurrentScaleMultiplier()
     {
-        throw new NotImplementedException();
+        return 1f; //TODO: MAKE IT SOLID
     }
 
     public Team GetTeam()
@@ -42,8 +42,8 @@ public class HealthManager : MonoBehaviour, IDamageable {
         throw new NotImplementedException();
     }
 
-    public UnitType GetMinionType()
+    public UnitType GetUnitType()
     {
-        throw new NotImplementedException();
+        return UnitType.general;
     }
 }

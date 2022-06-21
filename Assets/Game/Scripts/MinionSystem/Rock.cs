@@ -18,7 +18,7 @@ public class Rock : Minion {
     }
 
     private void Awake() {
-        SetMinionType(UnitType.rock);
+        SetUnitType(UnitType.rock);
     }
 
     private void OnTriggerEnter(Collider collision) {  // BUG: cant colliding when inherit from base class
@@ -26,16 +26,14 @@ public class Rock : Minion {
         IDamageable damageable = collision.GetComponentInParent<IDamageable>();
         if (damageable == null) return;
         if (GetTeam().Equals(damageable.GetTeam())) return;
-        Debug.Log("done");
+        //Debug.Log(GetUnitType());
 
-        switch (damageable.GetMinionType()) { // ? could be get calculated values before the combat from some method
-            case (UnitType)1: CalculateCombat(DamageQuality.normal, DamageQuality.normal); break;
-            case (UnitType)2:
-            CalculateCombat(DamageQuality.critical, DamageQuality.poor);
-            break;
-            case (UnitType)3: CalculateCombat(DamageQuality.poor, DamageQuality.critical); break;
-            case (UnitType)4: CalculateCombat(DamageQuality.critical, DamageQuality.poor); break;
-            case (UnitType)5: CalculateCombat(DamageQuality.instaDeath, DamageQuality.one); break;
+        switch (damageable.GetUnitType()) { // ? could be get calculated values before the combat from some method
+            case (UnitType)1: Debug.Log($"{GetUnitType()} {(UnitType)1}a girdi"); CalculateCombat(DamageQuality.normal, DamageQuality.normal); break;
+            case (UnitType)2: Debug.Log($"{GetUnitType()} {(UnitType)2}a {DamageQuality.poor} girdi"); CalculateCombat(DamageQuality.critical, DamageQuality.poor); break;
+            case (UnitType)3: Debug.Log($"{GetUnitType()} {(UnitType)3}a girdi"); CalculateCombat(DamageQuality.poor, DamageQuality.critical); break;
+            case (UnitType)4: Debug.Log($"{GetUnitType()} {(UnitType)4}a girdi"); CalculateCombat(DamageQuality.critical, DamageQuality.poor); break;
+            case (UnitType)5: Debug.Log($"{GetUnitType()} {(UnitType)5}a girdi"); CalculateCombat(DamageQuality.instaDeath, DamageQuality.one); break;
         }
 
         void CalculateCombat(DamageQuality youHurt, DamageQuality enemyHurt) {

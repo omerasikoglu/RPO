@@ -11,18 +11,18 @@ public class PointerEvents : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     public void OnPointerEnter(PointerEventData eventData) {
         if (!EventSystem.current.IsPointerOverGameObject()) return;
         OnPointerEnterEvent?.Invoke(this, EventArgs.Empty);
-        Debug.Log("OnPointerEnter");
+        //Debug.Log("OnPointerEnter");
     }
 
     public void OnPointerExit(PointerEventData eventData) {
         if (!EventSystem.current.IsPointerOverGameObject()) return;
         OnPointerExitEvent?.Invoke(this, EventArgs.Empty);
-        Debug.Log("OnPointerExit");
+        //Debug.Log("OnPointerExit");
     }
 
     public void OnPointerClick(PointerEventData eventData) {
         if (!EventSystem.current.IsPointerOverGameObject()) return;
         OnPointerClickEvent?.Invoke(this, EventArgs.Empty);
-        Debug.Log("OnPointerClick");
+        //Debug.Log("OnPointerClick");
     }
 }

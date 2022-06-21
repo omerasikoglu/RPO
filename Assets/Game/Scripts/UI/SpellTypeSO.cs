@@ -9,6 +9,7 @@ public enum SpellTypeEnum {
     Runner = 4, // x3 speed
     Ghost = 5, // reveal herself when close-up to enemy
     RiseOfTheOctopuses = 6,       //sonraki 10 sn boyunca spawnlanan tüm minyonlarýn octopus olacak
+    OnePunchMan =7, //generallere tek atar
 };
 
 [CreateAssetMenu(menuName = "ScriptableObjects/SpellType")]

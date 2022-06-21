@@ -26,13 +26,12 @@ public class MinionFactory : Singleton<MinionFactory> {
     public void OnEnable() {
 
         InitPools(); void InitPools() {
-            rockPool = new ObjectPool<Minion>(minionTypeList.GetUnit(UnitType.rock), 10, poolRoot);
-            paperPool = new ObjectPool<Minion>(minionTypeList.GetUnit(UnitType.paper), 10, poolRoot);
-            scissorsPool = new ObjectPool<Minion>(minionTypeList.GetUnit(UnitType.scissors), 10, poolRoot);
-            octopusPool = new ObjectPool<Minion>(minionTypeList.GetUnit(UnitType.octopus), 10, poolRoot);
+            rockPool = new ObjectPool<Minion>(minionTypeList.GetUnit(UnitType.rock), 5, poolRoot);
+            paperPool = new ObjectPool<Minion>(minionTypeList.GetUnit(UnitType.paper), 5, poolRoot);
+            scissorsPool = new ObjectPool<Minion>(minionTypeList.GetUnit(UnitType.scissors), 5, poolRoot);
+            octopusPool = new ObjectPool<Minion>(minionTypeList.GetUnit(UnitType.octopus), 5, poolRoot);
             parentPool = new List<ObjectPool<Minion>> { rockPool, paperPool, scissorsPool, octopusPool };
         }
-
     }
 
     private Vector3 GetMateSpawnPos(Road spawnPoint) => spawnPoint switch
@@ -57,10 +56,10 @@ public class MinionFactory : Singleton<MinionFactory> {
 
         return unitType switch
         {
-            UnitType.rock => parentPool[0].PullGameObject(currentSpawnPosition, rotation),
-            UnitType.paper => parentPool[1].PullGameObject(currentSpawnPosition, rotation),
-            UnitType.scissors => parentPool[2].PullGameObject(currentSpawnPosition, rotation),
-            UnitType.octopus => parentPool[3].PullGameObject(currentSpawnPosition, rotation),
+            UnitType.rock => parentPool[0].PullGameObject(currentSpawnPosition),
+            UnitType.paper => parentPool[1].PullGameObject(currentSpawnPosition),
+            UnitType.scissors => parentPool[2].PullGameObject(currentSpawnPosition),
+            UnitType.octopus => parentPool[3].PullGameObject(currentSpawnPosition),
             _ => throw new NotImplementedException(),
         };
     }

@@ -4,15 +4,24 @@ using UnityEngine;
 
 public class EnemyWaveManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private float spawnTimer;
+
+    public void Update()
     {
-        
+
+        spawnTimer -= Time.deltaTime;
+        if (spawnTimer <= 0f)
+        {
+            SpawnMinion();
+        }
+
     }
 
-    // Update is called once per frame
-    void Update()
+    private void SpawnMinion()
     {
-        
+        int i = Random.Range(0, 4);
+        MinionFactory.Instance.PullUnit(UnitType.rock, Team.red);
+
+
     }
 }

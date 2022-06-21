@@ -6,5 +6,5 @@ public interface IDamageable {
     void TakeDamage(DamageQuality damageQuality, float enemyScaleModifier = 1);
     float GetCurrentScaleMultiplier();
     Team GetTeam();
-    UnitType GetMinionType();
+    UnitType GetUnitType();
 }
