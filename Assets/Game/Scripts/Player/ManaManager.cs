@@ -1,19 +1,18 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using NaughtyAttributes;
 using UnityEngine;
 
 //TODO: Split ManaManager and ManaGenerator
-public class ManaManager : MonoBehaviour {
+public class ManaManager : Singleton<ManaManager> {
 
-    //[SerializeField] private int maxMana = 5;
+    [SerializeField] private GeneralOptionsSO options;
 
-    //private float currentMana;
-    //private float manaRegenTimer = .5f;
+    public event EventHandler OnManaAmountChanged;
 
-    //public void Awake() {
-    //    currentMana = 0;
-    //}
+    private float currentMana = 0f;
+    private float manaRegenTimer = .5f;
 
     //public void Update() {
 
@@ -39,4 +38,6 @@ public class ManaManager : MonoBehaviour {
     //    currentMana = Mathf.Clamp(currentMana, 0, maxMana);
 
     //}
+
+
 }

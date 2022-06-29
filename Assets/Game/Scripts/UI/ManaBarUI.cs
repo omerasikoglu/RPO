@@ -12,7 +12,13 @@ public class ManaBarUI : BarUI {
 
     protected override void Awake() {
         base.Awake();
-        currentValue = 0;
+        Init();
+
+        void Init()
+        {
+            maxValue = options.MaxMana;
+            currentValue = 0;
+        }
     }
 
     public void Update() {
@@ -21,7 +27,7 @@ public class ManaBarUI : BarUI {
 
         currentValue += manaRegenTimer * Time.deltaTime;
         if (currentValue >= maxValue) currentValue = maxValue;
-        greenBar.DOScaleX(multiplier * currentValue, .1f);
+        colorfulBar.DOScaleX(fillSpeed * currentValue, .1f);
 
     }
 

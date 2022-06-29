@@ -9,15 +9,24 @@ public class HealthManager : MonoBehaviour, IDamageable {
     public event Action OnDamaged;
     public event Action OnYouDied;
 
-    [SerializeField] private int maxHealth = 5;
-    [SerializeField] private Team team;
+    [SerializeField] private GeneralOptionsSO options;
+
+    private float maxHealth;
     [ShowNonSerializedField] private float currentHealth;
+
+    [SerializeField] private Team team;
 
     private bool isTooltipTimerActive = false;
 
 
     public void Awake() {
-        currentHealth = maxHealth;
+
+        Init();
+        void Init() {
+            maxHealth = options.MaxHealth;
+            currentHealth = maxHealth;
+            team = options.Team;
+        }
     }
 
     public void TakeDamage(DamageQuality damageQuality, float enemyScaleMultiplier) {
@@ -37,8 +46,7 @@ public class HealthManager : MonoBehaviour, IDamageable {
         return 1f; //TODO: MAKE IT SOLID
     }
 
-    public Team GetTeam()
-    {
+    public Team GetTeam() {
         return team;
     }
 

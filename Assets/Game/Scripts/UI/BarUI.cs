@@ -7,14 +7,16 @@ using NaughtyAttributes;
 
 public abstract class BarUI : MonoBehaviour
 {
-    protected Transform greenBar;
+    [SerializeField] protected GeneralOptionsSO options;
+    
+    protected Transform colorfulBar;
 
     protected float currentValue;
 
-    protected int maxValue => 5;  //TODO: Create healthOptionsSO and pull from there
-    protected float multiplier => 1 / (float)maxValue;
+    protected float maxValue;
+    protected float fillSpeed => 1 / (float)maxValue;
 
     protected virtual void Awake() {
-        greenBar = transform.GetComponentInChildren<Transform>().Find(StringData.BAR);
+        colorfulBar = transform.GetComponentInChildren<Transform>().Find(StringData.BAR);
     }
 }

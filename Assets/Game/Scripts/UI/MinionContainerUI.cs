@@ -69,4 +69,9 @@ public class MinionContainerUI : MonoBehaviour {
             }
         }
     }
+
+    public void OnEnable() {
+        
+    }
+
 }

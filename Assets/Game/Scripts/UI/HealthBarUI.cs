@@ -10,7 +10,12 @@ public class HealthBarUI : BarUI {
 
     protected override void Awake() {
         base.Awake();
-        currentValue = maxValue;
+        Init();
+
+        void Init() {
+            maxValue = options.MaxHealth;
+            currentValue = maxValue;
+        }
     }
     public void OnEnable() {
         healthManager.OnDamaged += HealthManager_OnDamaged;
@@ -25,7 +30,7 @@ public class HealthBarUI : BarUI {
     private void HealthManager_OnDamaged() {
         currentValue -= 1;
         currentValue = Mathf.Clamp(currentValue, 0, maxValue);
-        greenBar.DOScaleX(multiplier * currentValue, 1f);
+        colorfulBar.DOScaleX(fillSpeed * currentValue, 1f);
     }
     private void HealthManager_OnYouDied() {
         // ? Whole bar drops

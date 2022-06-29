@@ -4,7 +4,7 @@ using UnityEngine;
 
 public interface IDamageable {
     void TakeDamage(DamageQuality damageQuality, float enemyScaleModifier = 1);
-    float GetCurrentScaleMultiplier();
+    float GetCurrentScaleMultiplier(); //only minion TODO: Seperate this inter
     Team GetTeam();
     UnitType GetUnitType();
 }
