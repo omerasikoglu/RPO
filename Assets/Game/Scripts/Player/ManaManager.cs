@@ -14,6 +14,34 @@ public class ManaManager : Singleton<ManaManager> {
     private float currentMana = 0f;
     private float manaRegenTimer = .5f;
 
+
+
+    public bool HaveEnoughMana()
+    {
+        float minionManaAmount = 1;
+        float boosterMana = CheckBoosterIsActive();
+
+        float CheckBoosterIsActive() {
+           
+            //TODO: will be added boosters
+            return 0;
+        }
+
+        float totalMana = minionManaAmount + boosterMana;
+
+        if (totalMana >= currentMana)
+        {
+            currentMana -= totalMana;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+
+
+    }
+
     //public void Update() {
 
     //    if (currentMana >= maxMana) return;

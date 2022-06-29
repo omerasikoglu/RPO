@@ -4,7 +4,7 @@ using UnityEngine;
 using BehaviorDesigner.Runtime.Tasks;
 using DG.Tweening;
 
-public class Jump : EnemyGeneralAction {
+public class JumpAI : EnemyGeneralAction {
 
     [SerializeField] private float buildupTime;
     [SerializeField] private float jumpTime;

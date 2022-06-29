@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d618baf19bf1264c8f4924472910a0e, type: 3}
   m_Name: EnemyGeneralSO
   m_EditorClassIdentifier: 
-  team: 1
+  team: 0
   maxMana: 5
   maxHealth: 5

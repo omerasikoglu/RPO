@@ -4,7 +4,7 @@ using UnityEngine;
 using BehaviorDesigner.Runtime.Tasks;
 using DG.Tweening;
 
-public class SpawnMinion : EnemyGeneralAction {
+public class SpawnMinionAI : EnemyGeneralAction {
 
     public override void OnStart() {
         animator.SetTrigger("SpawnMinion");

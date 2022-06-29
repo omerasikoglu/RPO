@@ -4,11 +4,6 @@ using NaughtyAttributes;
 //TODO: Seperate the Spells to Spell SOs
 public enum Team { red, green, blue };
 
-public enum Road : int {
-    road1 = 1,
-    road2 = 2,
-};
-
 [CreateAssetMenu(menuName = "ScriptableObjects/MinionOptions")]
 public class MinionOptionsSO : ScriptableObject {
 
